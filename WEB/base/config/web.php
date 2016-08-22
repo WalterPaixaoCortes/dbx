@@ -4,6 +4,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
+    'language' => 'pt-BR',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
@@ -15,7 +16,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\UserDAO',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -46,6 +47,7 @@ $config = [
             ],
         ],
         */
+
     ],
     'params' => $params,
 ];
