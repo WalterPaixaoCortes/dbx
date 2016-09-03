@@ -31,7 +31,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $e =    UserDAO::findIdentity('1');
-        return $this->render('index', ['e'=>$e]);
+        return $this->render('index');
     }
 }

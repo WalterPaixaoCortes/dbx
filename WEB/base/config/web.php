@@ -18,6 +18,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\UserDAO',
             'enableAutoLogin' => true,
+            'loginUrl'=>array('login/login'),
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

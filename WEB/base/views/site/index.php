@@ -13,6 +13,5 @@ $this->title = 'DBX';
     </div>
 
     <div class="body-content">
-        <?php var_dump(Yii::$app->user->isGuest); ?>
     </div>
 </div>
