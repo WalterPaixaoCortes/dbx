@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\UploadBackgroundForm;
 use app\models\UploadColetaForm;
 use app\models\UploadForm;
 use Yii;
@@ -50,14 +51,21 @@ class ComponenteController extends Controller
         ];
     }
 
-    /**
-     * Login action.
-     *
-     * @return string
-     */
-    public function actionUpload()
+    public function actionUploadColeta()
     {
         $model = new UploadColetaForm();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->salvar();
+        }
+        return $this->render('Upload', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionUploadBackground()
+    {
+        $model = new UploadBackgroundForm();
         if ($model->load(Yii::$app->request->post())) {
             $model->file = UploadedFile::getInstance($model, 'file');
             $model->salvar();

@@ -13,13 +13,13 @@ use ZipArchive;
  * @property UserDAO|null $user This property is read-only.
  *
  */
-class UploadColetaForm extends UploadForm
+class UploadBackgroundForm extends UploadForm
 {
 
     function __construct($config = [])
     {
         parent::__construct($config);
-        $this->dir = $this->dir.'/Coleta';
+        $this->dir = $this->dir.'/BackgroundService';
     }
 
     /**
