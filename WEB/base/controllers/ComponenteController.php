@@ -23,10 +23,10 @@ class ComponenteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['upload'],
+//                'only' => ['UploadColeta'],
                 'rules' => [
                     [
-                        'actions' => ['upload'],
+                        'actions' => ['upload-background', 'upload-coleta'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -54,10 +54,7 @@ class ComponenteController extends Controller
     public function actionUploadColeta()
     {
         $model = new UploadColetaForm();
-        if ($model->load(Yii::$app->request->post())) {
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->salvar();
-        }
+        $this->upload($model);
         return $this->render('Upload', [
             'model' => $model,
         ]);
@@ -66,12 +63,17 @@ class ComponenteController extends Controller
     public function actionUploadBackground()
     {
         $model = new UploadBackgroundForm();
+        $this->upload($model);
+        return $this->render('Upload', [
+            'model' => $model,
+        ]);
+    }
+
+    private function upload($model)
+    {
         if ($model->load(Yii::$app->request->post())) {
             $model->file = UploadedFile::getInstance($model, 'file');
             $model->salvar();
         }
-        return $this->render('Upload', [
-            'model' => $model,
-        ]);
     }
 }
