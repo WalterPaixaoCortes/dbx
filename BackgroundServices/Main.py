@@ -7,3 +7,6 @@ class Main(object):
     def carregar_configuracao(self):
         print("ok")
         return
+
+    def loop(self):
+        return
