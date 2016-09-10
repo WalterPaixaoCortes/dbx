@@ -4,19 +4,21 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
+    'language' => 'pt-BR',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'DBXSecretWEBKey',
+            'cookieValidationKey' => 'DBXSecretKeyForValidation',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\UserDAO',
             'enableAutoLogin' => true,
+            'loginUrl'=>array('login/login'),
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -46,6 +48,7 @@ $config = [
             ],
         ],
         */
+
     ],
     'params' => $params,
 ];
