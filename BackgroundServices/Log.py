@@ -1,8 +1,8 @@
 class Log:
-    Database = None
+    database = None
 
     def __init__(self, database):
-        self.Database = database
+        self.database = database
         return
 
     def adicionar(self, msg):

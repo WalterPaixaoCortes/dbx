@@ -1,9 +1,10 @@
 
 class Componente():
 
-    database = Database()
+    database = None
 
-    def __init__(self, database):
+    def __init__(self, d):
+        self.database = d
         return
 
     def extract(self):

@@ -1,8 +1,8 @@
 class Controlador:
-    Timer = None
-    Database = None
-    Configuracao = None
-    Log = None
+    timer = None
+    database = None
+    configuracao = None
+    log = None
 
     def verificar(self):
         return
