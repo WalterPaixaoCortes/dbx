@@ -10,15 +10,19 @@ class Database:
         self.conexao['database'] = base
         return
 
+    # Insert(tabela, values[])
     def insert(self, tabela, values):
         return
 
+    #Find(tabela, where[])
     def find(self, tabela, where):
         return
 
+    #Query(tabela, consulta)
     def query(self, consulta):
         return
 
+    #Execute(comando)
     def execute(self, comando):
         return
 
