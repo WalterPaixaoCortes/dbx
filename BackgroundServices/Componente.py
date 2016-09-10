@@ -1,5 +1,5 @@
-
-class Componente():
+__name__ = "componente"
+class Componente:
 
     database = None
 
