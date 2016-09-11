@@ -1,6 +1,6 @@
 from BackgroundServices.Arquivo import Arquivo
 class Configuracao():
 
-    def carregar(self):
+    def carregar(self, dir):
         c = Arquivo()
-        return c.abrir_xml("Config.xml")['configuracao']
+        return c.abrir_xml(dir)['configuracao']

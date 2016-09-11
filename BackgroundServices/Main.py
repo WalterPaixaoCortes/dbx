@@ -9,7 +9,7 @@ class Main():
     def loop(self):
         while True:
             c = Configuracao()
-            config = c.carregar()
+            config = c.carregar("Config.xml")
             database = Database(config['db']['usuario'],config['db']['senha'],config['db']['host'],config['db']['database'])
             controlador = Controlador(database)
             controlador.verificar()
