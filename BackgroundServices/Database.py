@@ -1,7 +1,7 @@
 import array
 
 class Database:
-    conexao = []
+    conexao = {}
 
     def __init__(self, usuario, senha, host, base):
         self.conexao['user'] = usuario

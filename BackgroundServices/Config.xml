@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<configuracao>
+    <db>
+        <usuario>root</usuario>
+        <senha>senha</senha>
+        <host>127.0.0.1</host>
+        <database>dbx</database>
+    </db>
+</configuracao>
