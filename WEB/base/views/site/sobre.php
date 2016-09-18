@@ -2,16 +2,15 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'DBX';
+$this->title = 'DBX Sobre';
 ?>
-<div class="site-index">
+<div class="">
 
     <div class="jumbotron">
-        <h1>Index!</h1>
-
-        <p class="lead">Content index</p>
+            <h3>Sobre</h3>
     </div>
 
     <div class="body-content">
+        <p class="lead">Sobre o DB-X</p>
     </div>
 </div>

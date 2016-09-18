@@ -24,32 +24,36 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
+<div class="wrap container" style="background-color: #f0f0f0;">
     <?php
     NavBar::begin([
         'brandLabel' => 'DB-X',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-default  navbar-fixed-top',
+            'style' => 'background-color: #d3f2ff;'
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/login/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/login/logout'], 'post', ['class' => 'navbar-form'])
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
+
+    $itens = [
+        ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Pesquisa', 'url' => ['/site/pesquisa']],
+        ['label' => 'Artigos', 'url' => ['/site/artigos']],
+        ['label' => 'Sobre', 'url' => ['/site/sobre']]
+    ];
+    if(!Yii::$app->user->isGuest){
+        $itens[] = '<li>'. Html::beginForm(['/login/logout'], 'post', ['class' => 'navbar-form'])
+            . Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link']
             )
-        ],
+            . Html::endForm()
+            . '</li>';
+    }
+
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-left'],
+        'items' => $itens,
     ]);
     NavBar::end();
     ?>
@@ -59,6 +63,9 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= $content ?>
+    </div>
+    <div style="width: 100%; background-color: #d3f2ff; text-align: center; font-size: smaller" class="navbar-fixed-bottom">
+        DB-X PUCRS-<?php echo date('Y') ?>
     </div>
 </div>
 

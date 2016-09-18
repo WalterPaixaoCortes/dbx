@@ -7,17 +7,17 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = 'DBX Login';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-
+<div class="clearfix" style="max-width: 300px; margin: auto ">
+<div style="margin: auto; text-align: center" class="clearfix">
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
         'options' => ['class' => 'form-horizontal'],
         'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
+            'template' => "{label}\n<div class=\"\">{input}</div>\n<div class=\"\">{error}</div>",
+            'labelOptions' => ['class' => 'control-label'],
         ],
     ]); ?>
 
@@ -27,11 +27,11 @@ $this->title = 'Login';
 
 
         <div class="form-group">
-            <div class="col-lg-offset-1 col-lg-11">
+            <div class="">
                 <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
             </div>
         </div>
 
     <?php ActiveForm::end(); ?>
-
+</div>
 </div>
