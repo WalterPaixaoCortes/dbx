@@ -81,6 +81,9 @@ class UploadForm extends Model
             $this->addError('file', 'Erro ao tentar enviar o arquivo.');
             return false;
         }
+        if($this->hasErrors()){
+            return false;
+        }
         return true;
     }
 }

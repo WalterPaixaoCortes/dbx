@@ -27,7 +27,7 @@ class ComponenteController extends Controller
 //                'only' => ['upload-coleta'],
                 'rules' => [
                     [
-                        'actions' => ['upload-refinamento', 'upload-coleta', 'index', 'componentes-coleta'],
+                        'actions' => ['upload-refinamento', 'upload-coleta', 'index', 'componentes-coleta', 'remover-coleta'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -62,11 +62,27 @@ class ComponenteController extends Controller
         return $this->render("ListaColeta", ['componentes'=>ComponenteColetaDAO::listAll()]);
     }
 
+    public function actionRemoverColeta()
+    {
+        $componente = Yii::$app->request->get('componente');
+        if(isset($componente) && $componente > 0){
+            $c = ComponenteColetaDAO::findIdentity($componente);
+            if($c->remover()){
+                \Yii::$app->getSession()->setFlash('msg', "Componente removido.");
+            }else{
+                \Yii::$app->getSession()->setFlash('msg', "Erro ao tentar remover componente.");
+            }
+        }
+        return $this->redirect(['componente/componentes-coleta']);
+    }
+
     public function actionUploadColeta()
     {
         $model = new UploadColetaForm();
         if ($model->load(Yii::$app->request->post())) {
-            $this->upload($model);
+            if($this->upload($model)){
+                return $this->redirect(['componente/componentes-coleta']);
+            }
         }
         return $this->render('UploadColeta', [
             'model' => $model,
@@ -77,7 +93,9 @@ class ComponenteController extends Controller
     {
         $model = new UploadRefinamentoForm();
         if ($model->load(Yii::$app->request->post())) {
-            $this->upload($model);
+            if($this->upload($model)){
+                return $this->redirect(['componente/componentes-refinamento']);
+            }
         }
         return $this->render('UploadRefinamento', [
             'model' => $model,
@@ -87,6 +105,6 @@ class ComponenteController extends Controller
     private function upload($model)
     {
         $model->file = UploadedFile::getInstance($model, 'file');
-        $model->salvar();
+        return $model->salvar();
     }
 }

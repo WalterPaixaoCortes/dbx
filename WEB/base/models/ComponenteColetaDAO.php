@@ -17,7 +17,7 @@ class ComponenteColetaDAO extends ActiveRecord
      */
     public static function findIdentity($id)
     {
-        return UserDAO::find()->where(['ID' => $id])->one();
+        return ComponenteColetaDAO::findOne(['ID'=>$id]);
     }
 
     /**
@@ -26,6 +26,14 @@ class ComponenteColetaDAO extends ActiveRecord
     public static function listAll()
     {
         return ComponenteColetaDAO::find()->where(['tipo'=>'col'])->all();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function remover()
+    {
+        return (ComponenteColetaDAO::deleteAll('ID = '.$this->ID) > 0);
     }
 
 }

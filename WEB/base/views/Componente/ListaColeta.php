@@ -13,6 +13,11 @@ $this->title = 'Coponentes Coleta';
 ?>
 <div style="text-align: center">
     <h2>Componentes de Coleta</h2></br>
+    <?php
+    if(Yii::$app->getSession()->getFlash('msg') != null){
+        echo '<p style="color: #FF0000">'.Yii::$app->getSession()->getFlash('msg').'</p>';
+    }
+    ?>
 </div>
 <div class="table-responsive" style="padding: 10px">
     <table class="table table-hover">
@@ -36,7 +41,7 @@ $this->title = 'Coponentes Coleta';
                 <td>'.$c['NomeTabela'].'</td>
                 <td>'.$c['Criacao'].'</td>
                 <td>'.$c['Alteracao'].'</td>
-                <td>Editar/Remover</td>
+                <td>'.Html::a("Remover", ['componente/remover-coleta', 'componente'=>$c['ID']]).' / Editar</td>
             </tr>';
         }
         ?>
