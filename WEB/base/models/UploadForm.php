@@ -31,7 +31,7 @@ class UploadForm extends Model
     {
         return [
             // username and password are both required
-            [['file'], 'file', 'extensions' => 'zip'],
+            [['file'], 'file', 'required', 'skipOnEmpty'=>false, 'extensions' => 'zip'],
         ];
     }
 
@@ -44,6 +44,10 @@ class UploadForm extends Model
      */
     public function validar()
     {
+        if($this->file == null){
+            $this->addError('file', 'É necessário selecionar um arquivo .zip');
+            return false;
+        }
         if ($this->validate()) {
             return true;
         }else{
@@ -53,6 +57,10 @@ class UploadForm extends Model
 
     public function verificarArquivos($zip){
        return false;
+    }
+
+    public function carregarArquivos($d){
+        return false;
     }
 
     public function salvar(){
@@ -68,7 +76,9 @@ class UploadForm extends Model
                 return false;
             }
             $zip->extractTo($this->dir .'/'.$this->file->baseName);
+            $this->carregarArquivos($this->dir .'/'.$this->file->baseName);
         }catch (Exception $e){
+            $this->addError('file', 'Erro ao tentar enviar o arquivo.');
             return false;
         }
         return true;

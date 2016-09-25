@@ -2,7 +2,8 @@
 
 namespace app\controllers;
 
-use app\models\UploadBackgroundForm;
+use app\models\ComponenteColetaDAO;
+use app\models\UploadRefinamentoForm;
 use app\models\UploadColetaForm;
 use app\models\UploadForm;
 use Yii;
@@ -26,7 +27,7 @@ class ComponenteController extends Controller
 //                'only' => ['upload-coleta'],
                 'rules' => [
                     [
-                        'actions' => ['upload-background', 'upload-coleta'],
+                        'actions' => ['upload-refinamento', 'upload-coleta', 'index', 'componentes-coleta'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -51,31 +52,41 @@ class ComponenteController extends Controller
         ];
     }
 
+    public function actionIndex()
+    {
+        return $this->render("Index");
+    }
+
+    public function actionComponentesColeta()
+    {
+        return $this->render("ListaColeta", ['componentes'=>ComponenteColetaDAO::listAll()]);
+    }
+
     public function actionUploadColeta()
     {
         $model = new UploadColetaForm();
         if ($model->load(Yii::$app->request->post())) {
             $this->upload($model);
         }
-        return $this->render('Upload', [
+        return $this->render('UploadColeta', [
             'model' => $model,
         ]);
     }
 
-    public function actionUploadBackground()
+    public function actionUploadRefinamento()
     {
-        $model = new UploadBackgroundForm();
+        $model = new UploadRefinamentoForm();
         if ($model->load(Yii::$app->request->post())) {
             $this->upload($model);
         }
-        return $this->render('Upload', [
+        return $this->render('UploadRefinamento', [
             'model' => $model,
         ]);
     }
 
     private function upload($model)
     {
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->salvar();
+        $model->file = UploadedFile::getInstance($model, 'file');
+        $model->salvar();
     }
 }

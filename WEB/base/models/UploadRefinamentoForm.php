@@ -13,13 +13,13 @@ use ZipArchive;
  * @property UserDAO|null $user This property is read-only.
  *
  */
-class UploadBackgroundForm extends UploadForm
+class UploadRefinamentoForm extends UploadForm
 {
 
     function __construct($config = [])
     {
         parent::__construct($config);
-        $this->dir = $this->dir.'/BackgroundService';
+        $this->dir = $this->dir.'/Refinamento';
     }
 
     /**
@@ -38,6 +38,6 @@ class UploadBackgroundForm extends UploadForm
 //            var_dump($zip->getFromIndex($i));
 //        }
 //        die(var_dump($this->dir));
-        return true;
+        return false;
     }
 }

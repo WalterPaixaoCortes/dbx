@@ -41,20 +41,28 @@ AppAsset::register($this);
         ['label' => 'Artigos', 'url' => ['/site/artigos']],
         ['label' => 'Sobre', 'url' => ['/site/sobre']]
     ];
+
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-left'],
+        'items' => $itens,
+    ]);
     if(!Yii::$app->user->isGuest){
-        $itens[] = '<li>'. Html::beginForm(['/login/logout'], 'post', ['class' => 'navbar-form'])
+        $itens = [
+            ['label' => 'Componentes', 'url' => ['componente/index']],
+        ];
+        $itens[] = '<li>'. Html::beginForm(['/login/logout'], 'post', ['class' => 'navbar-form  navbar-right'])
             . Html::submitButton(
                 'Logout (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link']
             )
             . Html::endForm()
             . '</li>';
-    }
 
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-left'],
-        'items' => $itens,
-    ]);
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => $itens,
+        ]);
+    }
     NavBar::end();
     ?>
 
