@@ -1,16 +1,9 @@
+<?xml version="1.0"?>
 <config>
-    <mysql>
-        <host>127.0.0.1</host>
+    <db>
         <user>dbx</user>
         <password>dbx</password>
+        <host>127.0.0.1</host>
         <db>db</db>
-    </mysql>
-    <other>
-        <preprocessing_queue>
-            <li>preprocessing.scale_and_center</li>
-            <li>preprocessing.dot_reduction</li>
-            <li>preprocessing.connect_lines</li>
-        </preprocessing_queue>
-        <use_anonymous value="true" />
-    </other>
+    </db>
 </config>
