@@ -6,7 +6,9 @@ class ComponenteColeta(Componente):
         Componente.__init__(self, d)
         return
 
-    #busca e coleta de informações das bases de dados externas
+    #pdbp
+
+    #busca e coleta as informações das bases de dados externas
     def extract(self):
         return
 
