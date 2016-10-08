@@ -1,9 +1,16 @@
-<?xml version="1.0"?>
-<configuracao>
-    <db>
-        <usuario>root</usuario>
-        <senha>senha</senha>
+<config>
+    <mysql>
         <host>127.0.0.1</host>
-        <database>dbx</database>
-    </db>
-</configuracao>
+        <user>dbx</user>
+        <password>dbx</password>
+        <db>db</db>
+    </mysql>
+    <other>
+        <preprocessing_queue>
+            <li>preprocessing.scale_and_center</li>
+            <li>preprocessing.dot_reduction</li>
+            <li>preprocessing.connect_lines</li>
+        </preprocessing_queue>
+        <use_anonymous value="true" />
+    </other>
+</config>
