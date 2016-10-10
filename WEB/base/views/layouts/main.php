@@ -37,8 +37,8 @@ AppAsset::register($this);
 
     $itens = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Pesquisa', 'url' => ['/site/pesquisa']],
-        ['label' => 'Artigos', 'url' => ['/site/artigos']],
+        ['label' => 'Proteínas', 'url' => ['/proteina/lista']],
+        ['label' => 'Artigos', 'url' => ['/artigo/index']],
         ['label' => 'Sobre', 'url' => ['/site/sobre']]
     ];
 
@@ -49,6 +49,7 @@ AppAsset::register($this);
     if(!Yii::$app->user->isGuest){
         $itens = [
             ['label' => 'Componentes', 'url' => ['componente/index']],
+            ['label' => 'Proteínas', 'url' => ['proteina/index']]
         ];
         $itens[] = '<li>'. Html::beginForm(['/login/logout'], 'post', ['class' => 'navbar-form  navbar-right'])
             . Html::submitButton(
@@ -67,9 +68,6 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
         <?= $content ?>
     </div>
     <div style="width: 100%; background-color: #d3f2ff; text-align: center; font-size: smaller" class="navbar-fixed-bottom">

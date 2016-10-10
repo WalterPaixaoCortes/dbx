@@ -7,9 +7,9 @@ $this->title = 'DBX';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Index!</h1>
+        <h2>Bem-vindo ao DB-X!</h2></br>
 
-        <p class="lead">Content index</p>
+        <p>O DB-X é uma forma centralizada de realizar a visualização de dados e buscas de artigos e registros de enzimas de plataformas de publicações sobre bioinformática.</p>
     </div>
 
     <div class="body-content">
