@@ -19,8 +19,10 @@ class Controlador:
         return
 
     def carregar_coleta(self):
+        #carrega componente de coleta
         return
 
     def carregar_refinamento(self):
+        #carrega componente de refinamento
         return
 
