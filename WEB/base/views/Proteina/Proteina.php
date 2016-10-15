@@ -26,7 +26,6 @@ if(Yii::$app->getSession()->getFlash('msg') != null){
     ]); ?>
 
     <?= $form->field($model, 'nome')->textInput(); ?>
-    <?= $form->field($model, 'estrutura')->textInput(); ?>
     <?= $form->field($model, 'dados')->textarea(["rows"=>10]); ?>
     <?= $form->field($model, 'id')->hiddenInput()->label(""); ?>
 

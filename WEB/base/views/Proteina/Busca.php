@@ -24,8 +24,11 @@ $this->title = 'Pesquisa';
         <?php $form = ActiveForm::begin([
             'id' => 'proteina-form',
         ]); ?>
-        <div style="width: 100%; position:relative; float: left">
+        <div style="width: 50%; position:relative; float: left">
             <?= $form->field($model, 'nome')->textInput(['value' => $filtro['nome']])->label("Nome") ?>
+        </div>
+        <div style="width: 50%; position:relative; float: left">
+            <?= $form->field($model, 'estrutura')->textInput(['value' => $filtro['estrutura']])->label("Estrutura") ?>
         </div>
         <div style="width: 100%; position:relative; float: left;">
             <?= Html::submitButton('Buscar', ['class' => 'btn btn-primary',]) ?>
@@ -39,20 +42,17 @@ $this->title = 'Pesquisa';
             <thead>
             <tr>
                 <th>Nome</th>
-                <?php if(!Yii::$app->user->isGuest){
-                    echo "<th style='width: 30%'>Ações</th>";
-                } ?>
+                <th>Estrutura</th>
             </tr>
             </thead>
             <tbody>
             <?php
-            $acoes;
             foreach ($proteinas as $p){
-                $acoes = (Yii::$app->user->isGuest ? '':'<td>'.Html::a("Remover", ['proteina/remover', 'proteina'=>$p['id']]).'</td>');
                 echo '<tr>
-                            <td>' . $p['nome'] . '</td>'.$acoes.'
+                            <td>' . Html::a($p['nome'], ['proteina/visualizar-estrutura', 'proteina'=>$p['idProteina']]). '</td>'.'<td>' . Html::a($p['estrutura'], ['proteina/visualizar-estrutura', 'proteina'=>$p['idProteina']]). '</td>
                           </tr>';
             }
+
             ?>
             </tbody>
         </table>

@@ -12,7 +12,6 @@ $this->title = 'Proteínas';
 ?>
 <div class="jumbotron">
     <h3><?php echo $proteina['nome'];?></h3>
-    <h5><?php echo $proteina['estrutura'];?></h5>
 </div>
 <div>
     <?php echo $proteina['dados'];?>

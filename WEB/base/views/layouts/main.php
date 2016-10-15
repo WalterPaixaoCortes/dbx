@@ -37,7 +37,7 @@ AppAsset::register($this);
 
     $itens = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Proteínas', 'url' => ['/proteina/lista']],
+        ['label' => 'Estruturas', 'url' => ['/proteina/busca']],
         ['label' => 'Artigos', 'url' => ['/artigo/index']],
         ['label' => 'Sobre', 'url' => ['/site/sobre']]
     ];

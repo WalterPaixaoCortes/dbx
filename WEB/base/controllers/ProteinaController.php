@@ -54,6 +54,7 @@ class ProteinaController extends Controller
         $filtro['pags'] = 1;
         $filtro['count'] = $count;
         $filtro['nome'] = '';
+        $resultado = [];
 
         if(Yii::$app->request->get('pag') != null && Yii::$app->request->get('pag') != ''){
             $filtro['pag'] = Yii::$app->request->get('pag');
@@ -62,17 +63,60 @@ class ProteinaController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $filtro['nome'] = $model->nome;
-            $proteinas = ProteinaDAO::listPag($start, $count, $model->nome);
-            $filtro['pags'] = ProteinaDAO::countPags($start, $count, $model->nome);
+            $resultado =  ProteinaDAO::listarProteinasPag($start, $count, $model->nome);
+            $proteinas = $resultado['lista'];
+            $filtro['pags'] = $resultado['pags'];
         }else{
             if(Yii::$app->request->get('nome') != ''){
                 $filtro['nome'] = Yii::$app->request->get('nome');
             }
-            $proteinas = ProteinaDAO::listPag($start, $count, $filtro['nome']);
-            $filtro['pags'] = ProteinaDAO::countPags($start, $count, $filtro['nome']);
+            $resultado =  ProteinaDAO::listarProteinasPag($start, $count, $filtro['nome']);
+            $proteinas = $resultado['lista'];
+            $filtro['pags'] = $resultado['pags'];
         }
 
         return $this->render("Lista", ["filtro"=>$filtro, "proteinas"=>$proteinas, "model"=>$model]);
+    }
+
+
+    public function actionBusca()
+    {
+        $model = new BuscarProteinaForm();
+        $count = 10;
+        $start = 0;
+        $filtro = [];
+        $filtro['pag'] = 1;
+        $filtro['pags'] = 1;
+        $filtro['count'] = $count;
+        $filtro['nome'] = '';
+        $filtro['estrutura'] = '';
+        $resultado = [];
+
+        if(Yii::$app->request->get('pag') != null && Yii::$app->request->get('pag') != ''){
+            $filtro['pag'] = Yii::$app->request->get('pag');
+            $start = ($filtro['pag']-1)*$count;
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            $filtro['nome'] = $model->nome;
+            $filtro['estrutura'] = $model->estrutura;
+            $resultado =  ProteinaDAO::listarPag($start, $count, $model->nome, $model->estrutura);
+            $proteinas = $resultado['lista'];
+            $filtro['pags'] = $resultado['pags'];
+        }else{
+            if(Yii::$app->request->get('nome') != ''){
+                $filtro['nome'] = Yii::$app->request->get('nome');
+            }
+            if(Yii::$app->request->get('estrutura') != ''){
+                $filtro['estrutura'] = Yii::$app->request->get('estrutura');
+            }
+
+            $resultado =  ProteinaDAO::listarPag($start, $count, $filtro['nome'], $filtro['estrutura']);
+            $proteinas = $resultado['lista'];
+            $filtro['pags'] = $resultado['pags'];
+        }
+
+        return $this->render("Busca", ["filtro"=>$filtro, "proteinas"=>$proteinas, "model"=>$model]);
     }
 
     public function actionRemover()
@@ -82,15 +126,13 @@ class ProteinaController extends Controller
         if(isset($proteina) && $proteina > 0){
             $p = ProteinaDAO::findIdentity($proteina);
             if($p->remover()){
-                \Yii::$app->getSession()->setFlash('msg', "Proteina ".$p->nome." removida.");
+                Yii::$app->getSession()->setFlash('msg', "Proteína ".$p->nome." removida.");
             }else{
-                \Yii::$app->getSession()->setFlash('msg', "Erro ao tentar remover proteina. A proteina está vinculada a outras operações.");
+                Yii::$app->getSession()->setFlash('msg', "Erro ao tentar remover proteína. A proteína está vinculada a outras operações.");
             }
         }
         return $this->redirect(['proteina/lista']);
     }
-
-
 
     public function actionAdicionar()
     {
@@ -98,8 +140,8 @@ class ProteinaController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $pr = new ProteinaDAO();
-            if($pr->adicionar($model->nome, $model->estrutura, $model->dados)){
-                \Yii::$app->getSession()->setFlash('msg', "Proteina ".$pr->nome." adicionada.");
+            if($pr->adicionar($model->nome, $model->dados)){
+                Yii::$app->getSession()->setFlash('msg', "Proteína ".$pr->nome." adicionada.");
                 return $this->redirect(['proteina/lista']);
             }
         }
@@ -107,40 +149,14 @@ class ProteinaController extends Controller
         return $this->render('Proteina', ['model' => $model]);
     }
 
-
-    public function actionEditar()
-    {
-        $proteina = Yii::$app->request->get('proteina');
-        $model = new ProteinaForm();
-        if ($model->load(Yii::$app->request->post())) {
-            $p = ProteinaDAO::findIdentity($model->id);
-            $p->nome = $model->nome;
-            $p->estrutura = $model->estrutura;
-            $p->dados = $model->dados;
-            if($p->save()){
-                \Yii::$app->getSession()->setFlash('msg', "Salvo!");
-            }else{
-                \Yii::$app->getSession()->setFlash('msg', "Erro ao salvar!");
-            }
-        }elseif(isset($proteina) && $proteina > 0){
-            $p = ProteinaDAO::findIdentity($proteina);
-            $model->nome = $p->nome;
-            $model->estrutura = $p->estrutura;
-            $model->dados = $p->dados;
-            $model->id = $p->id;
-        }
-
-        return $this->render('Proteina', ['model' => $model]);
-    }
-
-    public function actionVisualizar(){
+    public function actionVisualizarEstrutura(){
         $proteina = Yii::$app->request->get('proteina');
         if(isset($proteina) && $proteina > 0){
             $p = ProteinaDAO::findIdentity($proteina);
             return $this->render('visualizar', ['proteina' => $p]);
         }
-        \Yii::$app->getSession()->setFlash('msg', "Proteína não encontrada.");
-        return $this->redirect(['proteina/lista']);
+        Yii::$app->getSession()->setFlash('msg', "Proteína não encontrada.");
+        return $this->redirect(['proteina/busca']);
     }
 
 }
