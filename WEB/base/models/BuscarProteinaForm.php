@@ -16,6 +16,7 @@ use ZipArchive;
 class BuscarProteinaForm extends Model
 {
     public $nome;
+    public $estrutura;
     /**
      * @return array the validation rules.
      */
@@ -24,7 +25,7 @@ class BuscarProteinaForm extends Model
         return [
             // username and password are both required
             //[['file'], 'file', 'required', 'skipOnEmpty'=>false, 'extensions' => 'zip'],
-            [['nome'], 'default'],
+            [['nome', 'estrutura'], 'default'],
         ];
     }
 

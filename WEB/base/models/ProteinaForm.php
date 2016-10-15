@@ -16,7 +16,6 @@ use ZipArchive;
 class ProteinaForm extends Model
 {
     public $nome;
-    public $estrutura;
     public $dados;
     public $id;
     /**
@@ -27,7 +26,7 @@ class ProteinaForm extends Model
         return [
             // username and password are both required
             //[['file'], 'file', 'required', 'skipOnEmpty'=>false, 'extensions' => 'zip'],
-            [['nome', 'estrutura'], 'required'],
+            [['nome'], 'required'],
             [['dados', 'id'], 'default']
         ];
     }
