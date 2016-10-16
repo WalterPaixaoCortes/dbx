@@ -8,11 +8,11 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Button;
 
-$this->title = 'Componentes Coleta';
+$this->title = 'Componentes Visuais';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div style="text-align: center">
-    <h2>Componentes de Coleta</h2></br>
+    <h2>Componentes Visuais</h2></br>
     <?php
     if(Yii::$app->getSession()->getFlash('msg') != null){
         echo '<p style="color: #FF0000">'.Yii::$app->getSession()->getFlash('msg').'</p>';
@@ -25,9 +25,6 @@ $this->title = 'Componentes Coleta';
         <tr>
             <th>ID</th>
             <th>Nome</th>
-            <th>Tabela</th>
-            <th>Criação</th>
-            <th>Última Alteração</th>
             <th>Ações</th>
         </tr>
         </thead>
@@ -37,11 +34,8 @@ $this->title = 'Componentes Coleta';
             echo '
             <tr>
                 <td>'.$c['ID'].'</td>
-                <td>'.$c['Nome'].'</td>
-                <td>'.$c['NomeTabela'].'</td>
-                <td>'.$c['Criacao'].'</td>
-                <td>'.$c['Alteracao'].'</td>
-                <td>'.Html::a("Remover", ['componente/remover-coleta', 'componente'=>$c['ID']]).' / Editar</td>
+                <td>'.$c['nome'].'</td>
+                <td>'.Html::a("Remover", ['componente/remover-visual', 'componente'=>$c['ID']]).'</td>
             </tr>';
         }
         ?>

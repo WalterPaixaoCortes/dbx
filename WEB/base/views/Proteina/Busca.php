@@ -49,7 +49,7 @@ $this->title = 'Pesquisa';
             <?php
             foreach ($proteinas as $p){
                 echo '<tr>
-                            <td>' . Html::a($p['nome'], ['proteina/visualizar-estrutura', 'proteina'=>$p['idProteina']]). '</td>'.'<td>' . Html::a($p['estrutura'], ['proteina/visualizar-estrutura', 'proteina'=>$p['idProteina']]). '</td>
+                            <td>' . Html::a($p['nome'], ['proteina/visualizar-estrutura', 'componente'=>$p['idComponente'], 'estrutura'=>$p['idEstrutura']]). '</td>'.'<td>' . Html::a($p['estrutura'], ['proteina/visualizar-estrutura', 'componente'=>$p['idComponente'], 'estrutura'=>$p['idEstrutura']]). '</td>
                           </tr>';
             }
 

@@ -17,6 +17,8 @@ $this->title = 'Componentes';
     echo Html::a('<button type="button" class="btn btn-primary btn-block">Adicionar Componente de Coleta</button>', ['componente/upload-coleta'], ['options' => ['class' => 'btn btn-primary btn-block btn']]) . "</br>";
     echo Html::a('<button type="button" class="btn btn-primary btn-block">Componentes de Refinamento</button>', ['componente/upload-coleta'], ['options' => ['class' => 'btn btn-primary btn-block btn']]) . "</br>";
     echo Html::a('<button type="button" class="btn btn-primary btn-block">Adicionar Componente de Refinamento</button>', ['componente/upload-refinamento'], ['options' => ['class' => 'btn btn-primary btn-block btn']]) . "</br>";
+    echo Html::a('<button type="button" class="btn btn-primary btn-block">Componentes Visuais</button>', ['componente/componentes-visuais'], ['options' => ['class' => 'btn btn-primary btn-block btn']]) . "</br>";
+    echo Html::a('<button type="button" class="btn btn-primary btn-block">Adicionar Componente Visual</button>', ['componente/upload-visual'], ['options' => ['class' => 'btn btn-primary btn-block btn']]) . "</br>";
     ?>
 
 </div>

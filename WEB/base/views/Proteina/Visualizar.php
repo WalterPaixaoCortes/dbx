@@ -8,11 +8,22 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Button;
 
-$this->title = 'Proteínas';
+$this->title = 'Estrutura';
 ?>
+
 <div class="jumbotron">
-    <h3><?php echo $proteina['nome'];?></h3>
+    <h3><?php echo $estrutura['proteina']." - ".$estrutura['estrutura']['estrutura'] ?></h3>
 </div>
 <div>
-    <?php echo $proteina['dados'];?>
+    <?php
+        try {
+            $a = file_get_contents(Yii::$app->basePath . "/../../Componentes/Visual/" . $estrutura['componentevisual'] . ".html");
+            foreach ($estrutura['estrutura'] as $k=>$v){
+                $a = str_replace("{{".strtoupper($k)."}}",$v,$a);
+            }
+            echo $a;
+        }catch(Exception $e){
+            echo '<p style="text-align: center; color: #ff0000">Erro ao tentar carregar o componente visual.</p>';
+        }
+    ?>
 </div>

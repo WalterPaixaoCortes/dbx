@@ -21,7 +21,29 @@ use ZipArchive;
 
 class ProteinaController extends Controller
 {
-
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['busca', 'visualizar-estrutura'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['index', 'lista',  'remover', 'adicionar'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ]
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -150,10 +172,12 @@ class ProteinaController extends Controller
     }
 
     public function actionVisualizarEstrutura(){
-        $proteina = Yii::$app->request->get('proteina');
-        if(isset($proteina) && $proteina > 0){
-            $p = ProteinaDAO::findIdentity($proteina);
-            return $this->render('visualizar', ['proteina' => $p]);
+        $componente = Yii::$app->request->get('componente');
+        $estrutura = Yii::$app->request->get('estrutura');
+        if(isset($componente) && $componente > 0 && isset($estrutura) && $estrutura > 0){
+            $dao = new ProteinaDAO();
+            $e = $dao->findEstrutura($componente, $estrutura);
+            return $this->render('visualizar', ['estrutura' => $e]);
         }
         Yii::$app->getSession()->setFlash('msg', "Proteína não encontrada.");
         return $this->redirect(['proteina/busca']);

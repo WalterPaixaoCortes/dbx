@@ -3,9 +3,11 @@
 namespace app\controllers;
 
 use app\models\ComponenteColetaDAO;
+use app\models\ComponenteVisualDAO;
 use app\models\UploadRefinamentoForm;
 use app\models\UploadColetaForm;
 use app\models\UploadForm;
+use app\models\UploadVisualForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -27,7 +29,7 @@ class ComponenteController extends Controller
 //                'only' => ['upload-coleta'],
                 'rules' => [
                     [
-                        'actions' => ['upload-refinamento', 'upload-coleta', 'index', 'componentes-coleta', 'remover-coleta'],
+                        'actions' => ['upload-refinamento', 'upload-coleta', 'upload-visual', 'index', 'componentes-coleta', 'remover-coleta',  'componentes-visuais', 'remover-visual'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -62,6 +64,11 @@ class ComponenteController extends Controller
         return $this->render("ListaColeta", ['componentes'=>ComponenteColetaDAO::listAll()]);
     }
 
+    public function actionComponentesVisuais()
+    {
+        return $this->render("ListaVisual", ['componentes'=>ComponenteVisualDAO::listAll()]);
+    }
+
     public function actionRemoverColeta()
     {
         $componente = Yii::$app->request->get('componente');
@@ -74,6 +81,20 @@ class ComponenteController extends Controller
             }
         }
         return $this->redirect(['componente/componentes-coleta']);
+    }
+
+    public function actionRemoverVisual()
+    {
+        $componente = Yii::$app->request->get('componente');
+        if(isset($componente) && $componente > 0){
+            $c = ComponenteVisualDAO::findIdentity($componente);
+            if($c->remover()){
+                \Yii::$app->getSession()->setFlash('msg', "Componente removido.");
+            }else{
+                \Yii::$app->getSession()->setFlash('msg', "O componente visual está vinculado e não pode ser removido.");
+            }
+        }
+        return $this->redirect(['componente/componentes-visuais']);
     }
 
     public function actionUploadColeta()
@@ -100,6 +121,17 @@ class ComponenteController extends Controller
         return $this->render('UploadRefinamento', [
             'model' => $model,
         ]);
+    }
+
+    public function actionUploadVisual()
+    {
+        $model = new UploadVisualForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if($this->upload($model)){
+                return $this->redirect(['componente/componentes-visuais']);
+            }
+        }
+        return $this->render('UploadVisual', ['model' => $model]);
     }
 
     private function upload($model)
