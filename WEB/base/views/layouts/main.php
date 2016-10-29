@@ -49,7 +49,8 @@ AppAsset::register($this);
     if(!Yii::$app->user->isGuest){
         $itens = [
             ['label' => 'Componentes', 'url' => ['componente/index']],
-            ['label' => 'Proteínas', 'url' => ['proteina/index']]
+            ['label' => 'Proteínas', 'url' => ['proteina/index']],
+            ['label' => 'Agendamento', 'url' => ['agendamento/index']]
         ];
         $itens[] = '<li>'. Html::beginForm(['/login/logout'], 'post', ['class' => 'navbar-form  navbar-right'])
             . Html::submitButton(

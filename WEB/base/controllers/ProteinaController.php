@@ -29,12 +29,8 @@ class ProteinaController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'only' => ['index', 'lista',  'remover', 'adicionar'],
                 'rules' => [
-                    [
-                        'actions' => ['busca', 'visualizar-estrutura'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
                     [
                         'actions' => ['index', 'lista',  'remover', 'adicionar'],
                         'allow' => true,

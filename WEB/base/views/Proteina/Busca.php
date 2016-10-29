@@ -14,8 +14,8 @@ $this->title = 'Pesquisa';
 <div style="text-align: center">
     <h2>Proteínas</h2></br>
     <?php
-    if(Yii::$app->getSession()->getFlash('msg') != null){
-        echo '<p style="color: #FF0000">'.Yii::$app->getSession()->getFlash('msg').'</p>';
+    if (Yii::$app->getSession()->getFlash('msg') != null) {
+        echo '<p style="color: #FF0000">' . Yii::$app->getSession()->getFlash('msg') . '</p>';
     }
     ?>
 </div>
@@ -39,6 +39,12 @@ $this->title = 'Pesquisa';
 <div class="">
     <div class="table-responsive" style="padding: 10px; background-color: #fafafa; margin: 10px">
         <table class="table table-hover">
+
+            <?php
+            if (empty($proteinas)) {
+                echo "<p style='text-align: center'>Nenhum resultado encontrado.</p>";
+            } else {
+            ?>
             <thead>
             <tr>
                 <th>Nome</th>
@@ -47,12 +53,12 @@ $this->title = 'Pesquisa';
             </thead>
             <tbody>
             <?php
-            foreach ($proteinas as $p){
+            foreach ($proteinas as $p) {
                 echo '<tr>
-                            <td>' . Html::a($p['nome'], ['proteina/visualizar-estrutura', 'componente'=>$p['idComponente'], 'estrutura'=>$p['idEstrutura']]). '</td>'.'<td>' . Html::a($p['estrutura'], ['proteina/visualizar-estrutura', 'componente'=>$p['idComponente'], 'estrutura'=>$p['idEstrutura']]). '</td>
+                            <td>' . Html::a($p['nome'], ['proteina/visualizar-estrutura', 'componente' => $p['idComponente'], 'estrutura' => $p['idEstrutura']]) . '</td>' . '<td>' . Html::a($p['estrutura'], ['proteina/visualizar-estrutura', 'componente' => $p['idComponente'], 'estrutura' => $p['idEstrutura']]) . '</td>
                           </tr>';
             }
-
+            }
             ?>
             </tbody>
         </table>
@@ -60,7 +66,7 @@ $this->title = 'Pesquisa';
     <div class="clearfix" style="margin: auto">
         <ul class="pagination pagination-sm" style="margin: auto">
             <?php
-            if($filtro['pags'] > 1) {
+            if ($filtro['pags'] > 1) {
                 $i = 0;
                 $max = 0;
                 if ($filtro['pags'] <= 7) {
@@ -80,14 +86,14 @@ $this->title = 'Pesquisa';
                         }
                     }
                 }
-                echo '  <li>' . Html::a(($filtro['pag']==1?"<b>Primeira</b>":"Primeira"), ['proteina/lista', 'pag' => 1, 'nome' => $filtro['nome']]) . '</li>';
+                echo '  <li>' . Html::a(($filtro['pag'] == 1 ? "<b>Primeira</b>" : "Primeira"), ['proteina/lista', 'pag' => 1, 'nome' => $filtro['nome']]) . '</li>';
                 if ($i <= 1) {
                     $i++;
                 }
                 for (; $i < $max; $i++) {
                     echo '<li>' . Html::a(($i == $filtro['pag'] ? "<b>" . $i . "</b>" : $i), ['proteina/lista', 'pag' => $i, 'nome' => $filtro['nome']]) . '</li>';
                 }
-                echo '  <li>' . Html::a(($filtro['pag']==$filtro['pags']?"<b>Última - " . $filtro['pags']."</b>":"Última - " . $filtro['pags']), ['proteina/lista', 'pag' => $filtro['pags'], 'nome' => $filtro['nome']]) . '</li>';
+                echo '  <li>' . Html::a(($filtro['pag'] == $filtro['pags'] ? "<b>Última - " . $filtro['pags'] . "</b>" : "Última - " . $filtro['pags']), ['proteina/lista', 'pag' => $filtro['pags'], 'nome' => $filtro['nome']]) . '</li>';
             }
             ?>
         </ul>

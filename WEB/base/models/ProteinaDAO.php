@@ -22,7 +22,12 @@ class ProteinaDAO extends ActiveRecord
 
     public function findEstrutura($componente, $id)
     {
-        $q =  Yii::$app->db->createCommand("Select proteinas.nome as proteina, nometabela as nometabela, componentesvisuais.nome as componentevisual from componentescoletarefinamento inner join componentesvisuais on componentesvisuais.id = componentescoletarefinamento.componentevisual inner join  proteinas on proteinas.id = componentescoletarefinamento.proteina where componentescoletarefinamento.id = ".$componente." limit 1")->queryAll()[0];
+        $q =  Yii::$app->db->createCommand("Select proteinas.nome as proteina, nometabela as nometabela, componentesvisuais.nome as componentevisual from componentescoletarefinamento inner join componentesvisuais on componentesvisuais.id = componentescoletarefinamento.componentevisual inner join  proteinas on proteinas.id = componentescoletarefinamento.proteina where componentescoletarefinamento.id = ".$componente." limit 1")->queryAll();
+        if(empty($q)){
+            $q['estrutura'] = null;
+            return $q;
+        }
+        $q = $q[0];
         $q['estrutura'] = Yii::$app->db->createCommand("Select * from ".$q['nometabela']." where id = ".$id."")->queryAll()[0];
         return $q;
     }
@@ -48,10 +53,12 @@ class ProteinaDAO extends ActiveRecord
     public static function listarPag($start = 0, $count = 10, $nome = '', $estrutura = '')
     {
         $where = '';
+        $join = '';
         if($nome != '') {
-            $where = "inner join proteinas on proteinas.id = componentescoletarefinamento.proteina where proteinas.nome like '%" . $nome . "%' ";
+            $where = " AND proteinas.nome like '%" . $nome . "%' ";
+            $join = "inner join proteinas on proteinas.id = componentescoletarefinamento.proteina";
         }
-        $q = Yii::$app->db->createCommand('Select proteina, nometabela, componentescoletarefinamento.id as id from componentescoletarefinamento '.$where)->queryAll();
+        $q = Yii::$app->db->createCommand('Select proteina, nometabela, componentescoletarefinamento.id as id from componentescoletarefinamento '.$join." Where componentescoletarefinamento.proteina IS NOT NULL ".$where)->queryAll();
         $novaq = "";
         $controle = false;
 
@@ -60,13 +67,17 @@ class ProteinaDAO extends ActiveRecord
             $wEstrutura = " where estrutura like '%" . $estrutura . "%' ";
         }
 
+
+        if(empty($q)){
+            return ["lista" => [], "pags"=>0];
+        }
         foreach ($q as $resultado) {
             if($controle){
                 $novaq .= " UNION ";
             }else {
                 $controle = true;
             }
-            $novaq .= '(Select * From (SELECT nome, id as idProteina FROM proteinas where proteinas.id = '.$resultado['proteina'].') as fds CROSS JOIN (Select "'.$resultado['id'].'" as idComponente, estrutura, id as idEstrutura from '.$resultado['nometabela'].' '.$wEstrutura.') as tabelacomponente)';
+                $novaq .= '(Select * From (SELECT nome, id as idProteina FROM proteinas where proteinas.id = '.$resultado['proteina'].') as fds CROSS JOIN (Select "'.$resultado['id'].'" as idComponente, estrutura, id as idEstrutura from '.$resultado['nometabela'].' '.$wEstrutura.') as tabelacomponente)';
         }
         $q = Yii::$app->db->createCommand('Select * from ('.$novaq.') as ok limit '.$count.' offset '.$start)->queryAll();
         $qt = Yii::$app->db->createCommand('Select count(*) as pags from ('.$novaq.') as ok;')->queryAll();

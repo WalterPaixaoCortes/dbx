@@ -55,15 +55,15 @@ class ArtigoDAO extends Model
         }
 
         $q = \Yii::$app->db->createCommand('Select a.*, autores.nome as autor from (
-                                                Select distinct(artigos.id) as id, artigos.titulo, artigos.abstract, artigos.data, proteinas.nome as proteina From artigos 
+                                                Select distinct(artigos.id) as id, artigos.titulo, artigos.abstract, artigos.data, artigos.link, proteinas.nome as proteina From artigos 
                                                 left join proteinas on proteinas.id = artigos.proteina
                                                 inner join autores_artigos on autores_artigos.idArtigo = artigos.id 
                                                 inner join autores on autores.id = autores_artigos.idAutor  
                                                 '.$where.'
-                                                order by artigos.data, artigos.id limit '.$count.' offset '.$start.'
+                                                order by artigos.data desc, artigos.id limit '.$count.' offset '.$start.'
                                             ) AS a  
                                             inner join autores_artigos on autores_artigos.idArtigo = a.id 
-                                            inner join autores on autores.id = autores_artigos.idAutor                   
+                                            inner join autores on autores.id = autores_artigos.idAutor
                                             ')->queryAll();
         return $q;
     }
@@ -101,7 +101,7 @@ class ArtigoDAO extends Model
             $where = $where."autores.nome like '%" . $autor . "%'";
         }
 
-        $q = \Yii::$app->db->createCommand('Select count(*) as pags From artigos 
+        $q = \Yii::$app->db->createCommand('Select count(DISTINCT (artigos.id)) as pags From artigos 
                                                 left join proteinas on proteinas.id = artigos.proteina
                                                 inner join autores_artigos on autores_artigos.idArtigo = artigos.id 
                                                 inner join autores on autores.id = autores_artigos.idAutor  
