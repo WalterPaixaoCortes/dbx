@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\AgendamentoDAO;
 use app\models\AgendamentoForm;
 use app\models\ArtigoDAO;
 use app\models\ArtigoForm;
@@ -62,8 +63,23 @@ class AgendamentoController extends Controller
     public function actionAdicionar()
     {
         $model = new AgendamentoForm();
-        if(Yii::$app->request->isPost){
-            die(var_dump($_REQUEST));
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->validacao();
+            if(!$model->hasErrors()) {
+                $componentes = str_getcsv(Yii::$app->request->post('ordem'), ";");
+                $dao = new AgendamentoDAO();
+                $dao->componentes = $componentes;
+                $dao->nome = $model->nome;
+                $dao->comentario = $model->comentario;
+                $dao->inicio = $model->data;
+                $dao->intervalo = $model->intervalo;
+                if($dao->salvar()){
+                    Yii::$app->getSession()->setFlash('msg', "Agendamento salvo!");
+                    return $this->redirect(['agendamento/index']);
+                }
+                Yii::$app->getSession()->setFlash('msg', "Erro ao tentar salvar o agendamento.");
+            }
         }
         return $this->render("Agendamento", ['model'=>$model]);
     }
