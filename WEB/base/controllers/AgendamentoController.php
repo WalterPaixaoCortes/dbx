@@ -6,6 +6,8 @@ use app\models\AgendamentoDAO;
 use app\models\AgendamentoForm;
 use app\models\ArtigoDAO;
 use app\models\ArtigoForm;
+use app\models\BuscarAgendamentoForm;
+use app\models\BuscarProteinaForm;
 use app\models\ComponenteColetaDAO;
 use app\models\UploadRefinamentoForm;
 use app\models\UploadColetaForm;
@@ -30,7 +32,7 @@ class AgendamentoController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'lista',  'remover', 'adicionar'],
+                        'actions' => ['index', 'lista',  'remover', 'adicionar', 'editar'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -76,11 +78,101 @@ class AgendamentoController extends Controller
                 $dao->intervalo = $model->intervalo;
                 if($dao->salvar()){
                     Yii::$app->getSession()->setFlash('msg', "Agendamento salvo!");
-                    return $this->redirect(['agendamento/index']);
+                    return $this->redirect(['agendamento/lista']);
                 }
                 Yii::$app->getSession()->setFlash('msg', "Erro ao tentar salvar o agendamento.");
             }
         }
-        return $this->render("Agendamento", ['model'=>$model]);
+        $componentes = ComponenteColetaDAO::listAll();
+        return $this->render("Agendamento", ['model'=>$model, 'componentes'=>$componentes, 'selecionados'=>[]]);
+    }
+
+    public function actionEditar()
+    {
+        $model = new AgendamentoForm();
+        $selecionados = [];
+
+        if ($model->load(Yii::$app->request->post())) {
+            $selecionados = str_getcsv(Yii::$app->request->post('ordem'), ";");
+            $model->validacao();
+            if(!$model->hasErrors()) {
+                $agendamento = AgendamentoDAO::findIdentity($model->id);
+                $agendamento->componentes = $selecionados;
+                $agendamento->nome = $model->nome;
+                $agendamento->comentario = $model->comentario;
+                $agendamento->inicio = $model->data;
+                $agendamento->intervalo = $model->intervalo;
+                $agendamento->id = $model->id;
+                if($agendamento->atualizar()){
+                    Yii::$app->getSession()->setFlash('msg', "Agendamento salvo!");
+                    return $this->redirect(['agendamento/lista']);
+                }
+                Yii::$app->getSession()->setFlash('msg', "Erro ao tentar salvar o agendamento.");
+            }
+        }else{
+            if(Yii::$app->request->get('agendamento') != ''){
+                $agendamento = AgendamentoDAO::findIdentity(Yii::$app->request->get('agendamento'));
+                $agendamento->carregarComponentes();
+                $selecionados = $agendamento->componentes;
+                $model->nome = $agendamento->nome;
+                $model->comentario = $agendamento->comentario;
+                $model->intervalo  = $agendamento->intervalo;
+                $model->inicio = date("d/m/Y",strtotime($agendamento->inicio));
+                $model->hora  = date("H",strtotime($agendamento->inicio));
+                $model->minuto  = date("i",strtotime($agendamento->inicio));
+                $model->id = $agendamento->id;
+            }
+        }
+        $componentes = ComponenteColetaDAO::listAll();
+        return $this->render("Agendamento", ['model'=>$model, 'componentes'=>$componentes, 'selecionados'=>$selecionados]);
+    }
+
+    public function actionLista()
+    {
+        $model = new BuscarAgendamentoForm();
+        $count = 10;
+        $start = 0;
+        $filtro = [];
+        $filtro['pag'] = 1;
+        $filtro['pags'] = 1;
+        $filtro['count'] = $count;
+        $filtro['nome'] = '';
+        $resultado = [];
+
+        if(Yii::$app->request->get('pag') != null && Yii::$app->request->get('pag') != ''){
+            $filtro['pag'] = Yii::$app->request->get('pag');
+            $start = ($filtro['pag']-1)*$count;
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            $filtro['nome'] = $model->nome;
+            $resultado =  AgendamentoDAO::listPag($start, $count, $filtro['nome']);
+            $proteinas = $resultado['lista'];
+            $filtro['pags'] = $resultado['pags'];
+        }else{
+            if(Yii::$app->request->get('nome') != ''){
+                $filtro['nome'] = Yii::$app->request->get('nome');
+            }
+            $resultado =  AgendamentoDAO::listPag($start, $count, $filtro['nome']);
+            $proteinas = $resultado['lista'];
+            $filtro['pags'] = $resultado['pags'];
+        }
+
+        return $this->render("Lista", ["filtro"=>$filtro, "model"=>$model, 'agendamentos'=>$resultado['lista']]);
+    }
+
+    public function actionRemover()
+    {
+        $agendamento = Yii::$app->request->get('agendamento');
+
+        if(isset($agendamento) && $agendamento > 0){
+            $a = AgendamentoDAO::findIdentity($agendamento);
+            if($a->remover()){
+                Yii::$app->getSession()->setFlash('msg', "Agendamento ".$a->nome." removido.");
+            }else{
+                Yii::$app->getSession()->setFlash('msg', "Erro ao tentar remover o agendamento.");
+            }
+        }
+        return $this->redirect(['agendamento/lista']);
     }
 }

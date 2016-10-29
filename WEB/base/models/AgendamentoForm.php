@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\base\Exception;
 use yii\base\Model;
 use ZipArchive;
 use DateTime;
@@ -42,12 +41,17 @@ class AgendamentoForm extends Model
 
     public function validacao(){
         try{
-            if($this->minuto < 10){
-                $this->minuto = "0".$this->minuto;
-            }
+//            if($this->minuto < 10){
+//                $this->minuto = "0".$this->minuto;
+//            }
             $d = "".$this->inicio." ".$this->hora.":".$this->minuto.":00";
-            $this->data = DateTime::createFromFormat("j/n/Y G:i:s", "".$d)->getTimestamp();
-            if(!(date("j/n/Y G:i:s", $this->data)."" == $d)){
+            $this->data = DateTime::createFromFormat("j/n/Y H:i:s", "".$d);
+            if($this->data == false){
+                $this->addError("inicio", "Data ou Horário inválido");
+                return false;
+            }
+            $this->data = $this->data->getTimestamp();
+            if(!(date("j/n/Y H:i:s", $this->data)."" == $d)){
                 $this->addError("inicio", "Data ou Horário inválido");
                 return false;
             }

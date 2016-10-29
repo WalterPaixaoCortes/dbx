@@ -16,6 +16,12 @@ class AgendamentoDAO extends ActiveRecord
         return "agendamentos";
     }
 
+    public static function findIdentity($id){
+        $a = AgendamentoDAO::findOne(['id'=>$id]);
+        $a->carregarComponentes();
+        return $a;
+    }
+
     /**
      * @inheritdoc
      */
@@ -25,14 +31,18 @@ class AgendamentoDAO extends ActiveRecord
         $i = false;
 
         if($nome != '') {
-            $where = "Where agendamentos.nome like '%" . $nome . "%'";
+            $where = "And agendamentos.nome like '%" . $nome . "%'";
         }
 
         $q = \Yii::$app->db->createCommand('SELECT * FROM agendamentos 
-                                                '.$where.'
+                                                Where ativo = 1 '.$where.'
                                                 order by agendamentos.inicio desc limit '.$count.' offset '.$start.'
                                             ')->queryAll();
-        return $q;
+        $qt = \Yii::$app->db->createCommand('SELECT count(*) as pags FROM agendamentos 
+                                                Where ativo = 1 '.$where.'
+                                            ')->queryAll();
+//        die(var_dump($qt));
+        return ["lista" => $q, "pags"=>(int)($qt[0]['pags']/$count)+1];
     }
 
     public function salvar(){
@@ -64,5 +74,26 @@ class AgendamentoDAO extends ActiveRecord
             $i++;
         }
         return true;
+    }
+
+    public function atualizar(){
+        \Yii::$app->db->createCommand("Delete From agendamentos_componentes Where idAgendamento = ".$this->id.";")->execute();
+        return $this->salvar();
+    }
+
+    public function remover(){
+        if($this->id == null){
+            return false;
+        }
+        $this->ativo = 0;
+        return $this->save();
+    }
+
+    public function carregarComponentes(){
+        $c = \Yii::$app->db->createCommand("Select idComponente From agendamentos_componentes Where idAgendamento = ".$this->id." order by ordem;")->queryAll();
+        $this->componentes = [];
+        foreach ($c as $comp){
+            $this->componentes[] = $comp['idComponente'];
+        }
     }
 }

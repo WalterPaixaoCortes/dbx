@@ -11,20 +11,22 @@ use yii\jui;
 use yii\jui\Sortable;
 
 $this->title = 'Agendamento';
-$componentes = [
-    ['content' => 'e', 'options' => ['value' => 'c5']],
-    ['content' => 'f', 'options' => ['value' => 'c6']],
-    ['content' => 'g', 'options' => ['value' => 'c7']],
-    ['content' => 'h', 'options' => ['value' => 'c8']],
-    ['content' => 'i', 'options' => ['value' => 'c9']],
-    ['content' => 'j', 'options' => ['value' => 'c10']],
-    ['content' => 'b', 'options' => ['value' => 'c2']],
-    ['content' => 'c', 'options' => ['value' => 'c3']],
-    ['content' => 'd', 'options' => ['value' => 'c4']],
-];
-$lista = [
-    ['content' => 'a', 'options' => ['value' => '1']],
-];
+
+$componentesDisponiveis = [];
+$componentesSelecionados = [];
+
+foreach ($componentes as $componente){
+    $componentesDisponiveis[] = ['content' => $componente->Nome, 'options' => ['value' => $componente->ID]];
+}
+foreach ($selecionados as $selecionado){
+    foreach ($componentesDisponiveis as $i=>$componente){
+        if($componente['options']['value'] == $selecionado){
+            $componentesSelecionados[] = $componente;
+            unset($componentesDisponiveis[$i]);
+            break;
+        }
+    }
+}
 
 $form = ActiveForm::begin([
     'id' => 'agendamento-form',
@@ -42,20 +44,21 @@ if ($model->inicio == '') {
 }
 $hora = [];
 $i = 00;
-for(; $i<24; $i++){
-    $hora[$i] = ($i<10?"0".$i:$i);
+for (; $i < 24; $i++) {
+    $i = ($i < 10 ? "0" . $i : $i);
+    $hora[$i] = $i;
 }
 $min = $hora;
-for (;$i<60; $i++){
+for (; $i < 60; $i++) {
     $min[$i] = $i;
 }
 ?>
 
 <div style="text-align: center">
-    <h2>Proteínas</h2></br>
+    <h2>Agendamento</h2></br>
     <?php
-    if(Yii::$app->getSession()->getFlash('msg') != null){
-        echo '<p style="color: #FF0000">'.Yii::$app->getSession()->getFlash('msg').'</p>';
+    if (Yii::$app->getSession()->getFlash('msg') != null) {
+        echo '<p style="color: #FF0000">' . Yii::$app->getSession()->getFlash('msg') . '</p>';
     }
     ?>
 </div>
@@ -66,8 +69,8 @@ for (;$i<60; $i++){
         <?= $form->field($model, 'comentario')->textarea(["rows" => 10, 'maxLength' => 255])->label("Comentário"); ?>
         <?= $form->field($model, 'inicio')->widget(\yii\jui\DatePicker::classname(), ['model' => $model, 'attribute' => 'inicio', 'dateFormat' => 'dd/MM/yyyy', 'language' => 'pt-br', 'options' => ['class' => 'col-lg-3 form-control']])->label("Início"); ?>
         <div style="text-align: left">
-            <?= $form->field($model, 'hora')->dropDownList($hora)->label("Hora início")?>
-            <?= $form->field($model, 'minuto')->dropDownList($min)->label("Minutos início")?>
+            <?= $form->field($model, 'hora')->dropDownList($hora)->label("Hora início") ?>
+            <?= $form->field($model, 'minuto')->dropDownList($min)->label("Minutos início") ?>
         </div>
         <div style="text-align: left">
             <?= $form->field($model, 'intervalo')->widget(\yii\jui\Spinner::classname(), ['options' => ['style' => 'width: 80px; padding: 2px'], 'clientOptions' => ['step' => 1]])->label("Intervalo (dias)"); ?>
@@ -90,7 +93,7 @@ for (;$i<60; $i++){
                 <td style="padding: 20px !important; border: 1px solid #cccccc; border-radius: 4px;">
                     <?php
                     echo Sortable::widget([
-                        'items' => $componentes,
+                        'items' => $componentesDisponiveis,
                         'options' => ['tag' => 'ul', 'style' => 'padding: 20px 10px 20px 10px !important; list-style-type:none', 'class' => 'connectedSortable alert alert-warning'],
                         'itemOptions' => ['tag' => 'li', 'style' => 'width: 300px; margin-top: 5px; border: 1px solid; border-radius: 5px; text-align: center; ', 'class' => 'alert-info'],
                         'clientOptions' => ['cursor' => 'move', 'connectWith' => '.connectedSortable'],
@@ -101,8 +104,8 @@ for (;$i<60; $i++){
                     <?php
                     echo Sortable::widget([
                         'id' => 'olComponentes',
-                        'items' => $lista,
-                        'options' => ['tag' => 'ol', 'style' => 'padding: 20px 10px 20px 10px !important;', 'class' => 'connectedSortable alert alert-success'],
+                        'items' => $componentesSelecionados,
+                        'options' => ['tag' => 'ul', 'style' => 'padding: 20px 10px 20px 10px !important; list-style-type:none', 'class' => 'connectedSortable alert alert-success'],
                         'itemOptions' => ['tag' => 'li', 'style' => 'width: 300px; margin-top: 5px; border: 1px solid; border-radius: 5px; text-align: center', 'class' => 'alert-info'],
                         'clientOptions' => ['cursor' => 'move', 'connectWith' => '.connectedSortable'],
                     ]);
