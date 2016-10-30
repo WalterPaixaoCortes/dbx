@@ -21,9 +21,31 @@ if (!isset($estrutura['proteina'])) {
         <?php
         try {
             $a = file_get_contents(Yii::$app->basePath . "/../../Componentes/Visual/" . $estrutura['componentevisual'] . ".html");
-            $a = str_replace("{{DBX-URL}}", Yii::$app->params['url'], $a);
+
             foreach ($estrutura['estrutura'] as $k => $v) {
                 $a = str_replace("{{" . strtoupper($k) . "}}", $v, $a);
+
+                if(stripos($a,"{{TABELA;".strtoupper($k)."}}") == false){
+                    continue;
+                }
+
+                if($v != ""){
+                    $tabela = "<div class='table-responsive'><table style='border: 1px solid; width: 100%' class='table table-hover'><tr>";
+                    $dados = json_decode($estrutura['estrutura'][$k]);
+                    foreach ($dados->colunas as $coluna){
+                        $tabela .= "<th style='border: 1px solid'>".$coluna."</th>";
+                    }
+                    foreach ($dados->valores as $valores){
+                        $tabela .= "</tr><tr style='border: 1px solid'>";
+                        foreach ($valores as $valor){
+                            $tabela .= "<td style='border: 1px solid'>".$valor."</td>";
+                        }
+                    }
+                    $tabela .= "</tr></tabela></div>";
+                    $a = str_replace("{{TABELA;".strtoupper($k)."}}",$tabela,$a);
+                    continue;
+                }
+                $a = str_replace("{{TABELA;".strtoupper($k)."}}","",$a);
             }
             echo $a;
         } catch (Exception $e) {
