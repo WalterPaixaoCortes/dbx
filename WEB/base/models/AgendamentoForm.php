@@ -45,19 +45,21 @@ class AgendamentoForm extends Model
 //                $this->minuto = "0".$this->minuto;
 //            }
             $d = "".$this->inicio." ".$this->hora.":".$this->minuto.":00";
-            $this->data = DateTime::createFromFormat("j/n/Y H:i:s", "".$d);
+//            var_dump($d);
+            $this->data = DateTime::createFromFormat("d/m/Y H:i:s", "".$d);
+//            die(var_dump($this->data));
             if($this->data == false){
-                $this->addError("inicio", "Data ou Horário inválido");
+                $this->addError("inicio", "Data ou Horário inválido1");
                 return false;
             }
             $this->data = $this->data->getTimestamp();
-            if(!(date("j/n/Y H:i:s", $this->data)."" == $d)){
-                $this->addError("inicio", "Data ou Horário inválido");
+            if(!(date("d/m/Y H:i:s", $this->data)."" == $d)){
+                $this->addError("inicio", "Data ou Horário inválido2");
                 return false;
             }
             $this->data = date("Y/m/d H:i:s", $this->data);
         }catch (Exception $e){
-            $this->addError("inicio", "Data ou Horário inválido");
+            $this->addError("inicio", "Data ou Horário inválido3");
         }
     }
 }

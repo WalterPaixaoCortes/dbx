@@ -24,11 +24,14 @@ $this->title = 'Pesquisa';
         <?php $form = ActiveForm::begin([
             'id' => 'proteina-form',
         ]); ?>
-        <div style="width: 50%; position:relative; float: left">
+        <div style="width: 33%; position:relative; float: left">
             <?= $form->field($model, 'nome')->textInput(['value' => $filtro['nome']])->label("Nome") ?>
         </div>
-        <div style="width: 50%; position:relative; float: left">
+        <div style="width: 33%; position:relative; float: left">
             <?= $form->field($model, 'estrutura')->textInput(['value' => $filtro['estrutura']])->label("Estrutura") ?>
+        </div>
+        <div style="width: 34%; position:relative; float: left">
+            <?= $form->field($model, 'ligantes')->textInput(['value' => $filtro['ligantes']])->label("Ligantes") ?>
         </div>
         <div style="width: 100%; position:relative; float: left;">
             <?= Html::submitButton('Buscar', ['class' => 'btn btn-primary',]) ?>
@@ -49,13 +52,18 @@ $this->title = 'Pesquisa';
             <tr>
                 <th>Nome</th>
                 <th>Estrutura</th>
+                <th style="max-width: 40%">Ligantes</th>
             </tr>
             </thead>
             <tbody>
             <?php
             foreach ($proteinas as $p) {
+                if($p['ligantes'] == ''){
+                    $p['ligantes'] = ' - ';
+                }
                 echo '<tr>
-                            <td>' . Html::a($p['nome'], ['proteina/visualizar-estrutura', 'componente' => $p['idComponente'], 'estrutura' => $p['idEstrutura']]) . '</td>' . '<td>' . Html::a($p['estrutura'], ['proteina/visualizar-estrutura', 'componente' => $p['idComponente'], 'estrutura' => $p['idEstrutura']]) . '</td>
+                            <td>' . Html::a($p['nome'], ['proteina/visualizar-estrutura', 'componente' => $p['idComponente'], 'estrutura' => $p['idEstrutura']]) . '</td>' . '<td>' . Html::a($p['estrutura'], ['proteina/visualizar-estrutura', 'componente' => $p['idComponente'], 'estrutura' => $p['idEstrutura']]) . '</td> <td style="width: 50%; padding: 0px !important;">' .'
+                            ' . Html::a((strlen($p['ligantes']) < 80 ? $p['ligantes'] : substr($p['ligantes'], 0, 77)." ..."), ['proteina/visualizar-estrutura', 'componente' => $p['idComponente'], 'estrutura' => $p['idEstrutura']], ["data-toggle"=>"tooltip", "title"=>$p['ligantes']]) . '</td>
                           </tr>';
             }
             }

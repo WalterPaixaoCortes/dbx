@@ -17,6 +17,7 @@ class BuscarProteinaForm extends Model
 {
     public $nome;
     public $estrutura;
+    public $ligantes;
     /**
      * @return array the validation rules.
      */
@@ -25,7 +26,7 @@ class BuscarProteinaForm extends Model
         return [
             // username and password are both required
             //[['file'], 'file', 'required', 'skipOnEmpty'=>false, 'extensions' => 'zip'],
-            [['nome', 'estrutura'], 'default'],
+            [['nome', 'estrutura', 'ligantes'], 'default'],
         ];
     }
 

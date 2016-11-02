@@ -108,6 +108,7 @@ class ProteinaController extends Controller
         $filtro['count'] = $count;
         $filtro['nome'] = '';
         $filtro['estrutura'] = '';
+        $filtro['ligantes'] = '';
         $resultado = [];
 
         if(Yii::$app->request->get('pag') != null && Yii::$app->request->get('pag') != ''){
@@ -118,7 +119,8 @@ class ProteinaController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $filtro['nome'] = $model->nome;
             $filtro['estrutura'] = $model->estrutura;
-            $resultado =  ProteinaDAO::listarPag($start, $count, $model->nome, $model->estrutura);
+            $filtro['ligantes'] = $model->ligantes;
+            $resultado =  ProteinaDAO::listarPag($start, $count, $model->nome, $model->estrutura, $model->ligantes);
             $proteinas = $resultado['lista'];
             $filtro['pags'] = $resultado['pags'];
         }else{
@@ -128,8 +130,11 @@ class ProteinaController extends Controller
             if(Yii::$app->request->get('estrutura') != ''){
                 $filtro['estrutura'] = Yii::$app->request->get('estrutura');
             }
+            if(Yii::$app->request->get('ligantes') != ''){
+                $filtro['ligantes'] = Yii::$app->request->get('ligantes');
+            }
 
-            $resultado =  ProteinaDAO::listarPag($start, $count, $filtro['nome'], $filtro['estrutura']);
+            $resultado =  ProteinaDAO::listarPag($start, $count, $filtro['nome'], $filtro['estrutura'], $filtro['ligantes']);
             $proteinas = $resultado['lista'];
             $filtro['pags'] = $resultado['pags'];
         }

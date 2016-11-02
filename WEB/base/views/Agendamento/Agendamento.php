@@ -60,6 +60,7 @@ for (; $i < 60; $i++) {
     if (Yii::$app->getSession()->getFlash('msg') != null) {
         echo '<p style="color: #FF0000">' . Yii::$app->getSession()->getFlash('msg') . '</p>';
     }
+//    die(var_dump($model));
     ?>
 </div>
 <div style="text-align: center">

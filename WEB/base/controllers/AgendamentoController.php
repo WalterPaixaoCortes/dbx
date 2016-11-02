@@ -19,6 +19,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use yii\web\UploadedFile;
 use ZipArchive;
+use DateTime;
 
 class AgendamentoController extends Controller
 {
@@ -65,6 +66,7 @@ class AgendamentoController extends Controller
     public function actionAdicionar()
     {
         $model = new AgendamentoForm();
+        $model->inicio = DateTime::createFromFormat("d/m/Y", date("d/m/Y",time()));
 
         if ($model->load(Yii::$app->request->post())) {
             $model->validacao();
@@ -117,7 +119,8 @@ class AgendamentoController extends Controller
                 $model->nome = $agendamento->nome;
                 $model->comentario = $agendamento->comentario;
                 $model->intervalo  = $agendamento->intervalo;
-                $model->inicio = date("d/m/Y",strtotime($agendamento->inicio));
+                $model->inicio = date("m/d/Y",strtotime($agendamento->inicio));
+//                die(var_dump($model->inicio));
                 $model->hora  = date("H",strtotime($agendamento->inicio));
                 $model->minuto  = date("i",strtotime($agendamento->inicio));
                 $model->id = $agendamento->id;

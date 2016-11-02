@@ -36,12 +36,11 @@ class AgendamentoDAO extends ActiveRecord
 
         $q = \Yii::$app->db->createCommand('SELECT * FROM agendamentos 
                                                 Where ativo = 1 '.$where.'
-                                                order by agendamentos.inicio desc limit '.$count.' offset '.$start.'
+                                                order by ativo, agendamentos.inicio desc, id desc limit '.$count.' offset '.$start.'
                                             ')->queryAll();
         $qt = \Yii::$app->db->createCommand('SELECT count(*) as pags FROM agendamentos 
                                                 Where ativo = 1 '.$where.'
                                             ')->queryAll();
-//        die(var_dump($qt));
         return ["lista" => $q, "pags"=>(int)($qt[0]['pags']/$count)+1];
     }
 
