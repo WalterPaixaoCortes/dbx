@@ -14,7 +14,7 @@ class UserDAO extends ActiveRecord implements \yii\web\IdentityInterface
 
     public static function tableName()
     {
-        return "Usuarios";
+        return "usuarios";
     }
 
     /**
