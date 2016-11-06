@@ -1,4 +1,5 @@
-from BackgroundServices.Arquivo import Arquivo
+from Modulos.Arquivo import Arquivo
+
 class Configuracao():
 
     def carregar(self, dir):

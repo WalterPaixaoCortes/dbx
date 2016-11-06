@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
-<config>
+<configuracao>
     <db>
-        <user>dbx</user>
-        <password>dbx</password>
+        <usuario>dbxbs</usuario>
+        <senha>bs</senha>
         <host>127.0.0.1</host>
-        <db>db</db>
+        <database>dbx</database>
     </db>
-</config>
+    <dbADM>
+        <usuario>dbxbsadm</usuario>
+        <senha>adm</senha>
+        <host>127.0.0.1</host>
+        <database>dbx</database>
+    </dbADM>
+</configuracao>
