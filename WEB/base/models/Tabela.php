@@ -23,16 +23,16 @@ class Tabela
             $cmd = $cmd.$coluna['nome']." ".$coluna['formato'].",";
         }
         if($pk == ''){
-            $cmd = 'Create Table '.$this->nome.' ( ID int UNSIGNED AUTO_INCREMENT PRIMARY KEY'.$cmd;
+            $cmd = 'Create Table IF NOT EXISTS '.$this->nome.' ( ID int UNSIGNED AUTO_INCREMENT PRIMARY KEY'.$cmd;
         }else{
-            $cmd = 'Create Table '.$this->nome.' ('.$cmd." PRIMARY KEY (".substr($pk,0, strlen($pk)-1)."));";
+            $cmd = 'Create Table IF NOT EXISTS '.$this->nome.' ('.$cmd." PRIMARY KEY (".substr($pk,0, strlen($pk)-1)."));";
         }
 
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
         try{
             $db->createCommand($cmd)->execute();
-            $db->createCommand("INSERT INTO ComponentesColetaRefinamento (ID, Nome, Tipo, NomeTabela, Configuracao, Criacao, Alteracao) VALUES (NULL, '".$this->componente."', 'col', '".$this->nome."', '', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);")->execute();
+            $db->createCommand("INSERT INTO componentescoletarefinamento (ID, Nome, Tipo, NomeTabela, Configuracao, Criacao, Alteracao) VALUES (NULL, '".$this->componente."', 'col', '".$this->nome."', '', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);")->execute();
             $transaction->commit();
             return true;
         }catch (Exception $e){

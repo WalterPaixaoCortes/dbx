@@ -76,6 +76,10 @@ class UploadForm extends Model
                 return false;
             }
             $zip->extractTo($this->dir .'/'.$this->file->baseName);
+            $zip->close();
+            exec("chmod 777 ".$this->dir .'/'.$this->file->baseName);
+            $f = fopen($this->dir .'/'.$this->file->baseName."/__init__.py", "w+");
+            fclose($f);
             $this->carregarArquivos($this->dir .'/'.$this->file->baseName);
         }catch (Exception $e){
             $this->addError('file', 'Erro ao tentar enviar o arquivo.');
