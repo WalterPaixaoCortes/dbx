@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Terminal=true
+Exec=python3.4 Main.py -m

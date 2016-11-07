@@ -57,6 +57,7 @@ class UploadVisualForm extends UploadForm
             $componente->nome = $this->file->baseName;
             $componente->save();
         }catch (Exception $e){
+            die(var_dump($e));
             $this->addError('file', 'Erro ao tentar enviar o arquivo.');
             return false;
         }

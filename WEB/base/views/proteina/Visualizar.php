@@ -20,7 +20,7 @@ if (!isset($estrutura['proteina'])) {
     <div>
         <?php
         try {
-            $a = file_get_contents(Yii::$app->basePath . "/../../Componentes/Visual/" . $estrutura['componentevisual'] . ".html");
+            $a = file_get_contents(Yii::$app->basePath . "/../../BackgroundServices/Componentes/Visual/" . $estrutura['componentevisual'] . ".html");
 
             foreach ($estrutura['estrutura'] as $k => $v) {
                 $a = str_replace("{{" . strtoupper($k) . "}}", $v, $a);

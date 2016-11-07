@@ -17,7 +17,7 @@ class UploadForm extends Model
 {
 
     public $file;
-    public $dir = '../../../Componentes';
+    public $dir = '../../../BackgroundServices/Componentes';
 
     function __construct($config = [])
     {

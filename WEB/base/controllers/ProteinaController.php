@@ -178,7 +178,7 @@ class ProteinaController extends Controller
         if(isset($componente) && $componente > 0 && isset($estrutura) && $estrutura > 0){
             $dao = new ProteinaDAO();
             $e = $dao->findEstrutura($componente, $estrutura);
-            return $this->render('visualizar', ['estrutura' => $e]);
+            return $this->render('Visualizar', ['estrutura' => $e]);
         }
         Yii::$app->getSession()->setFlash('msg', "Proteína não encontrada.");
         return $this->redirect(['proteina/busca']);

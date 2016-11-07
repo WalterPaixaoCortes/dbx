@@ -1,6 +1,7 @@
 from array import*
 import pprint
 
+import time
 import sys
 
 from Modulos.Controlador import Controlador

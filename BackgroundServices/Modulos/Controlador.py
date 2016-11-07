@@ -7,8 +7,9 @@ import importlib
 from Modulos.AgendamentoDAO import AgendamentoDAO
 from Modulos.Log import Log
 
-sys.path.append(sys.path[0]+"/../Componentes/Coleta")
+# sys.path.append(sys.path[0]+"/../Componentes/Coleta/Componentes")
 
+# from Main import Main as mm
 
 class Controlador:
     timer = None
@@ -29,12 +30,12 @@ class Controlador:
             for a in agendamentos:
                 a.atualizar()
                 for c in a.componentes:
+                    pprint.pprint(c)
                     try:
                         if c['tipo'] == "col":
-                            self.carregar_coleta(c['nome'])
+                            self.carregar_coleta(c['nome'], c['nometabela'])
                         if c['tipo'] == "ref":
                             self.carregar_refinamento(c['nome'])
-
                         pprint.pprint(c['id'])
                     except ImportError:
                         Log.adicionar("Erro ao tentar importar componente. ComponenteID:" + str(c['id']) + " ComponenteNome:" +c['nome'] + " AgendamentoID: " + str(a.id))
@@ -42,9 +43,9 @@ class Controlador:
                         Log.adicionar("Erro ao tentar executar o componente. ComponenteID:"+str(c['id'])+" ComponenteNome:"+c['nome']+" AgendamentoID: "+str(a.id))
         return
 
-    def carregar_coleta(self, nome):
-        Main = importlib.import_module(nome + ".Main")
-        m = Main.Main(self.databaseComponentes, "tabela")
+    def carregar_coleta(self, nome, tabela):
+        Main = importlib.import_module("Componentes.Coleta."+nome + ".Main")
+        m = Main.Main(self.databaseComponentes, tabela)
         m.extract()
         m.parse()
         m.save()
