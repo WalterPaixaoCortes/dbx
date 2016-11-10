@@ -94,14 +94,14 @@ $this->title = 'Pesquisa';
                         }
                     }
                 }
-                echo '  <li>' . Html::a(($filtro['pag'] == 1 ? "<b>Primeira</b>" : "Primeira"), ['proteina/lista', 'pag' => 1, 'nome' => $filtro['nome']]) . '</li>';
+                echo '  <li>' . Html::a(($filtro['pag'] == 1 ? "<b>Primeira</b>" : "Primeira"), ['proteina/busca', 'pag' => 1, 'nome' => $filtro['nome'], 'estrutura' => $filtro['estrutura'], 'ligantes' => $filtro['ligantes']]) . '</li>';
                 if ($i <= 1) {
                     $i++;
                 }
                 for (; $i < $max; $i++) {
-                    echo '<li>' . Html::a(($i == $filtro['pag'] ? "<b>" . $i . "</b>" : $i), ['proteina/lista', 'pag' => $i, 'nome' => $filtro['nome']]) . '</li>';
+                    echo '<li>' . Html::a(($i == $filtro['pag'] ? "<b>" . $i . "</b>" : $i), ['proteina/busca', 'pag' => $i, 'nome' => $filtro['nome'], 'estrutura' => $filtro['estrutura'], 'ligantes' => $filtro['ligantes']]) . '</li>';
                 }
-                echo '  <li>' . Html::a(($filtro['pag'] == $filtro['pags'] ? "<b>Última - " . $filtro['pags'] . "</b>" : "Última - " . $filtro['pags']), ['proteina/lista', 'pag' => $filtro['pags'], 'nome' => $filtro['nome']]) . '</li>';
+                echo '  <li>' . Html::a(($filtro['pag'] == $filtro['pags'] ? "<b>Última - " . $filtro['pags'] . "</b>" : "Última - " . $filtro['pags']), ['proteina/busca', 'pag' => $filtro['pags'], 'nome' => $filtro['nome'], 'estrutura' => $filtro['estrutura'], 'ligantes' => $filtro['ligantes']]) . '</li>';
             }
             ?>
         </ul>

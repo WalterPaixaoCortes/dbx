@@ -111,10 +111,6 @@ class ProteinaController extends Controller
         $filtro['ligantes'] = '';
         $resultado = [];
 
-        if(Yii::$app->request->get('pag') != null && Yii::$app->request->get('pag') != ''){
-            $filtro['pag'] = Yii::$app->request->get('pag');
-            $start = ($filtro['pag']-1)*$count;
-        }
 
         if ($model->load(Yii::$app->request->post())) {
             $filtro['nome'] = $model->nome;
@@ -124,6 +120,10 @@ class ProteinaController extends Controller
             $proteinas = $resultado['lista'];
             $filtro['pags'] = $resultado['pags'];
         }else{
+            if(Yii::$app->request->get('pag') != null && Yii::$app->request->get('pag') != ''){
+                $filtro['pag'] = Yii::$app->request->get('pag');
+                $start = ($filtro['pag']-1)*$count;
+            }
             if(Yii::$app->request->get('nome') != ''){
                 $filtro['nome'] = Yii::$app->request->get('nome');
             }

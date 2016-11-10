@@ -41,13 +41,14 @@ if (!isset($estrutura['proteina'])) {
                             $tabela .= "<td style='border: 1px solid'>".$valor."</td>";
                         }
                     }
-                    $tabela .= "</tr></tabela></div>";
+                    $tabela .= "</tr></table></div>";
                     $a = str_replace("{{TABELA;".strtoupper($k)."}}",$tabela,$a);
                     continue;
                 }
                 $a = str_replace("{{TABELA;".strtoupper($k)."}}","",$a);
             }
             echo $a;
+//            die(var_dump($a));
         } catch (Exception $e) {
             echo '<p style="text-align: center; color: #ff0000">Erro ao tentar carregar o componente visual.</p>';
         }

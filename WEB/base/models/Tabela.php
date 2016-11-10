@@ -15,15 +15,16 @@ class Tabela
     public function criar(){
 
         $pk = '';
-        $cmd = "";
+        $cmd = [];
         foreach ($this->colunas as $coluna){
             if($coluna['pk']){
                 $pk = $pk.$coluna['nome'].",";
             }
-            $cmd = $cmd.$coluna['nome']." ".$coluna['formato'].",";
+            $cmd[] = $coluna['nome']." ".$coluna['formato'];
         }
+        $cmd = join(", ", $cmd);
         if($pk == ''){
-            $cmd = 'Create Table IF NOT EXISTS '.$this->nome.' ( ID int UNSIGNED AUTO_INCREMENT PRIMARY KEY'.$cmd;
+            $cmd = 'Create Table IF NOT EXISTS '.$this->nome.' ( id int UNSIGNED AUTO_INCREMENT PRIMARY KEY, '.$cmd." )";
         }else{
             $cmd = 'Create Table IF NOT EXISTS '.$this->nome.' ('.$cmd." PRIMARY KEY (".substr($pk,0, strlen($pk)-1)."));";
         }
@@ -36,6 +37,7 @@ class Tabela
             $transaction->commit();
             return true;
         }catch (Exception $e){
+            die(var_dump($e));
             $transaction->rollBack();
             return false;
         }

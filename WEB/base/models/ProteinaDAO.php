@@ -87,8 +87,8 @@ class ProteinaDAO extends ActiveRecord
         }
         $q = Yii::$app->db->createCommand('Select * from (' . $novaq . ') as ok limit ' . $count . ' offset ' . $start)->queryAll();
         $qt = Yii::$app->db->createCommand('Select count(*) as pags from (' . $novaq . ') as ok;')->queryAll();
-
-        return ["lista" => $q, "pags" => (int)($qt[0]['pags'] / $count) + 1];
+        $p = (int)($qt[0]['pags'] / $count);
+        return ["lista" => $q, "pags" =>  ($p>0?$p:1)];
     }
 
     /**

@@ -53,11 +53,11 @@ class UploadVisualForm extends UploadForm
         try {
             $dirArquivo = $this->dir . "/" . $this->file->baseName . "." . $this->file->extension;
             $this->file->saveAs($dirArquivo);
+            exec("chmod 777 ".$this->dir . "/" . $this->file->baseName . "." . $this->file->extension);
             $componente = new ComponenteVisualDAO();
             $componente->nome = $this->file->baseName;
             $componente->save();
         }catch (Exception $e){
-            die(var_dump($e));
             $this->addError('file', 'Erro ao tentar enviar o arquivo.');
             return false;
         }

@@ -4,7 +4,7 @@
     </div>
     <h4><b>Estrutura:</b> {{ESTRUTURA}}</h4>
     <h4>{{DESCRICAO}}</h4>
-    <h5><a href="{{LINK}}" target="_blank"> Conteúdo completo </a></h5></br>
+    <h5><a href="{{LINK}}" target="_blank"> Conteúdo completo no PDB</a></h5></br>
     <div style="margin: auto; padding-top: 100px;  border: 1px solid; padding: 30px">
         <b>DOI:</b><a href="http://dx.doi.org/{{DOI}}"> {{DOI}}</a></br>
         <b>Classification:</b> {{CLASSIFICACAO}}</br>
@@ -25,11 +25,16 @@
 
     <div style="margin: auto; position:relative; float: left; border: 1px solid; width: 100%; padding: 30px;  padding-top: 0px !important;">
         <h3>Literatura:</h3></br>
-        <b>Artigo:</b> <a href="{{DBX-URL}}/index.php?r=artigo/index&titulo={{ARTIGOORIGEM}}"><b>{{ARTIGOORIGEM}}</b></a></br>
+        <b>Artigo:</b> <b>{{ARTIGOORIGEM}}</b></br>
         <b>Autores:</b> {{ARTIGOAUTORES}}
     </div>
     <div style="margin: auto; position:relative; float: left; border: 1px solid; width: 100%; padding: 30px;  padding-top: 0px !important;">
         <h3>Macromolecules:</h3></br>
-        {{TABELA;MACROMOLECULES}}
+        {{TABELA;MACROMOLECULA}}
+    </div>
+
+    <div style="margin: auto; position:relative; float: left; border: 1px solid; width: 100%; padding: 30px;  padding-top: 0px !important;">
+        <h3>Ligantes:</h3></br>
+        {{TABELA;TABELALIGANTES}}
     </div>
 </div>

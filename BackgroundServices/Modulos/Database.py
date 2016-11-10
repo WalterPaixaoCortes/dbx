@@ -19,9 +19,10 @@ class Database:
         # cursor.execute()
         for k, v in values.items():
             if not (isinstance(v, int)):
-                values[k] = '"' + v + '"'
+                values[k] = "'" + v.replace("'","\\'") + "'"
             else:
                 values[k] = str(v)
+
         cursor.execute("Insert Into " + tabela + "(" + (','.join(values.keys())) + ") Values(" + (",".join(values.values())) + ")")
         cnx.commit()
         cursor.close()
