@@ -30,9 +30,9 @@ class Database:
         return
 
     #Find(tabela, where[])
-    def find(self, tabela, where = [], colunas = [], ordem = ""):
+    def find(self, tabela, where = [], colunas = [], ordem = "", dict=True):
         cnx = mysql.connector.connect(**self.conexao)
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor(dictionary=dict)
         c = "*"
         if colunas:
             c = ", ".join(colunas)
@@ -45,17 +45,6 @@ class Database:
         cnx.close()
         return r
 
-    #Query(tabela, consulta)
-    # def query(self, consulta):
-    #     cnx = mysql.connector.connect(**self.conexao)
-    #     cursor = cnx.cursor(dictionary=True)
-    #     cursor.execute("Select * from usuarios")
-    #     r = cursor.fetchall()
-    #     cursor.close()
-    #     cnx.close()
-    #     return r
-
-    #Execute(comando)
     def query(self, comando):
         cnx = mysql.connector.connect(**self.conexao)
         cursor = cnx.cursor(dictionary=True)

@@ -86,6 +86,7 @@ class UploadColetaForm extends UploadForm
         $xml = simplexml_load_file($d . "/Estrutura.xml");
         $tabela = new Tabela();
         $tabela->componente = $xml['nome']."";
+        $tabela->tipo = "col";
         foreach ($xml->tabela as $t){
             $tabela->nome = $t['nome'];
             foreach ($t->coluna as $coluna) {
@@ -101,9 +102,12 @@ class UploadColetaForm extends UploadForm
 
             if(!$tabela->criar()){
                 $this->addError('file', 'Erro ao criar a base de dados.');
+                return false;
             }
-            break;
+            return true;
         }
+        $comp = new ComponenteColetaDAO();
+        $comp->adicionar($tabela->componente, "col");
         return true;
     }
 }

@@ -7,7 +7,7 @@
    </coluna>
    <coluna numero="3">
        <nome>descricao</nome>
-       <formato>VARCHAR(512)</formato>
+       <formato>VARCHAR(512) CHARACTER SET utf16</formato>
    </coluna>
    <coluna numero="4">
        <nome>link</nome>
@@ -51,7 +51,7 @@
    </coluna>
    <coluna numero="14">
        <nome>artigoautores</nome>
-       <formato>text</formato>
+       <formato>text CHARACTER SET utf16</formato>
    </coluna>
    <coluna numero="15">
        <nome>macromolecula</nome>

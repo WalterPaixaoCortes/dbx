@@ -11,7 +11,7 @@ class AgendamentoDAO():
             p.database = databaseADM
             p.id = a['id']
             p.nome = a['nome']
-            p.componentes = databaseADM.query("SELECT idComponente as id, nome, nometabela, ordem, tipo FROM agendamentos_componentes inner join componentescoletarefinamento on componentescoletarefinamento.id = idComponente Where idAgendamento = "+str(a['id'])+" order by idAgendamento, ordem")
+            p.componentes = databaseADM.query("SELECT idComponente as id, nome, nometabela, ordem, tipo, proteina FROM agendamentos_componentes inner join componentescoletarefinamento on componentescoletarefinamento.id = idComponente Where idAgendamento = "+str(a['id'])+" order by idAgendamento, ordem")
             pendentes.append(p)
         return pendentes
 

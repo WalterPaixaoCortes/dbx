@@ -82,6 +82,7 @@ class UploadForm extends Model
             fclose($f);
             $this->carregarArquivos($this->dir .'/'.$this->file->baseName);
         }catch (Exception $e){
+            die(var_dump($e));
             $this->addError('file', 'Erro ao tentar enviar o arquivo.');
             return false;
         }

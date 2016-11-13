@@ -59,7 +59,7 @@ $this->title = 'Artigos';
                 $artigo = null;
                 foreach ($artigos as $a) {
                     if ($id == $a['id']) {
-                        $artigo['autor'] = $artigo['autor'] . ", " . $a['autor'];
+                        $artigo['autor'] = $artigo['autor'] . "; " . $a['autor'];
                     } else {
                         if ($artigo != null) {
                             echo '<tr>

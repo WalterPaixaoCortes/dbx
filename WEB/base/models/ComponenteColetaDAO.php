@@ -36,4 +36,9 @@ class ComponenteColetaDAO extends ActiveRecord
         return (ComponenteColetaDAO::deleteAll('ID = '.$this->ID) > 0);
     }
 
+    public function adicionar($nome, $tipo){
+        $db = \Yii::$app->db;
+        $db->createCommand("INSERT INTO componentescoletarefinamento (ID, Nome, Tipo, Configuracao, Criacao, Alteracao) VALUES (NULL, '".$nome."', '".$tipo."','', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);")->execute();
+    }
+
 }

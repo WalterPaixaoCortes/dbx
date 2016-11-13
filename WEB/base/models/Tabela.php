@@ -11,6 +11,7 @@ class Tabela
     public $componente;
     public $nome;
     public $colunas = [];
+    public $tipo;
 
     public function criar(){
 
@@ -33,7 +34,7 @@ class Tabela
         $transaction = $db->beginTransaction();
         try{
             $db->createCommand($cmd)->execute();
-            $db->createCommand("INSERT INTO componentescoletarefinamento (ID, Nome, Tipo, NomeTabela, Configuracao, Criacao, Alteracao) VALUES (NULL, '".$this->componente."', 'col', '".$this->nome."', '', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);")->execute();
+            $db->createCommand("INSERT INTO componentescoletarefinamento (ID, Nome, Tipo, NomeTabela, Configuracao, Criacao, Alteracao) VALUES (NULL, '".$this->componente."', '".$this->tipo."', '".$this->nome."', '', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);")->execute();
             $transaction->commit();
             return true;
         }catch (Exception $e){

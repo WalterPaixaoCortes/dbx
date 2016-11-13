@@ -2,9 +2,11 @@ from .Componente import *
 
 class ComponenteColeta(Componente):
 
-    def __init__(self, d, t):
+    def __init__(self, d, t, c, p):
         self.database = d
         self.tabela = t
+        self.idComponente = c
+        self.idProteina = p
         return
 
     #pdbp
