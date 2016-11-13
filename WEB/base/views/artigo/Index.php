@@ -159,7 +159,7 @@ $this->title = 'Artigos';
             for (; $i < $max; $i++) {
                 echo '<li>' . Html::a(($i == $filtro['pag'] ? "<b>" . $i . "</b>" : $i), ['artigo/index', 'pag' => $i, 'titulo' => $filtro['titulo'], 'proteina' => $filtro['proteina'], 'autor' => $filtro['autor']]) . '</li>';
             }
-            echo '<li>' . Html::a(($filtro['pag'] == $filtro['pags'] ? "<b>Última - " . $filtro['pags'] . "</b>" : "Última - " . $filtro['pags']), ['artigo/index', 'pag' => $i, 'titulo' => $filtro['titulo'], 'proteina' => $filtro['proteina'], 'autor' => $filtro['autor']]) . '</li>';
+            echo '<li>' . Html::a(($filtro['pag'] == $filtro['pags'] ? "<b>Última - " . $filtro['pags'] . "</b>" : "Última - " . $filtro['pags']), ['artigo/index', 'pag' => $filtro['pags'], 'titulo' => $filtro['titulo'], 'proteina' => $filtro['proteina'], 'autor' => $filtro['autor']]) . '</li>';
         }
         ?>
     </ul>

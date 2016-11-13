@@ -63,7 +63,6 @@ class Main(ComponenteColeta):
             data = list(req.iter("ArticleDate"))
             if data:
                 artigo['dados']['data'] = time.strftime("%Y-%m-%d",time.strptime(data[0].find("Day").text+"/"+data[0].find("Month").text+"/"+data[0].find("Year").text, "%d/%b/%Y"))
-                print(artigo['dados']['data'])
             artigo['dados']['link'] = "https://www.ncbi.nlm.nih.gov/pubmed/?term="+id
             self.artigos.append(artigo)
 

@@ -24,7 +24,7 @@ class Controlador:
             print("Executando ...")
             agendamentos = AgendamentoDAO.listar_pendentes(self.databaseADM)
             for a in agendamentos:
-                # a.atualizar()
+                a.atualizar()
                 for c in a.componentes:
                     pprint.pprint(c)
                     # try:

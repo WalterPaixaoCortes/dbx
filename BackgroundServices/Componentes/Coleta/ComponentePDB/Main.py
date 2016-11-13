@@ -66,7 +66,6 @@ class Main(ComponenteColeta):
 
 
     def carregar_estrutura(self, eID):
-        pprint.pprint(eID)
         url = "http://www.rcsb.org/pdb/rest/customReport.xml?pdbids="+str(eID)+"&customReportColumns=structureTitle,pdbDoi,classification,depositionDate,releaseDate,structureAuthor,source,expressionHost,experimentalTechnique,resolution,title,authorAssignedEntityName,chainLength,geneName,ligandName"
         req = urllib.urlopen(url).read().decode()
         req = xml.fromstring(req)
@@ -102,13 +101,8 @@ class Main(ComponenteColeta):
         for k,c in cadeias.items():
             cadeias[k] = ",".join(c)
 
-        if len(cadeias) > 1:
-            print(estrutura['estrutura'])
-
         macromoleculas = []
-
         e = []
-
         for m in req:
             if m.find("dimEntity.compound").text in e:
                 continue
