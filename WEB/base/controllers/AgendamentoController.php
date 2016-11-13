@@ -78,6 +78,7 @@ class AgendamentoController extends Controller
                 $dao->comentario = $model->comentario;
                 $dao->inicio = $model->data;
                 $dao->intervalo = $model->intervalo;
+                $dao->paralelismo = $model->paralelismo;
                 if($dao->salvar()){
                     Yii::$app->getSession()->setFlash('msg', "Agendamento salvo!");
                     return $this->redirect(['agendamento/lista']);
@@ -104,6 +105,7 @@ class AgendamentoController extends Controller
                 $agendamento->comentario = $model->comentario;
                 $agendamento->inicio = $model->data;
                 $agendamento->intervalo = $model->intervalo;
+                $agendamento->paralelismo = $model->paralelismo;
                 $agendamento->id = $model->id;
                 if($agendamento->atualizar()){
                     Yii::$app->getSession()->setFlash('msg', "Agendamento salvo!");
@@ -119,8 +121,8 @@ class AgendamentoController extends Controller
                 $model->nome = $agendamento->nome;
                 $model->comentario = $agendamento->comentario;
                 $model->intervalo  = $agendamento->intervalo;
+                $model->paralelismo  = $agendamento->paralelismo;
                 $model->inicio = date("m/d/Y",strtotime($agendamento->inicio));
-//                die(var_dump($model->inicio));
                 $model->hora  = date("H",strtotime($agendamento->inicio));
                 $model->minuto  = date("i",strtotime($agendamento->inicio));
                 $model->id = $agendamento->id;

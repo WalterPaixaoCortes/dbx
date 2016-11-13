@@ -8,7 +8,7 @@ class Main(ComponenteColeta):
 
     def extract(self):
         self.estruturas = []
-        print("Extract")
+        print("Extract PDB")
 
         temp = self.database.find(self.tabela, colunas=['estrutura'])
         atuais = []
@@ -33,7 +33,8 @@ class Main(ComponenteColeta):
     def save(self):
         for estrutura in self.estruturas:
             self.database.insert(self.tabela, estrutura)
-        print("Save")
+            print("Save PDB")
+        print("Save PDB")
         return
 
     def queryPDB(self, url, query_xml = None):
@@ -150,6 +151,7 @@ class Main(ComponenteColeta):
                     \"colunas\":[\"ID\",\"Nome\",\"Fórmula\",\"InChIKey\"],
                     \"valores\":[""" + ", ".join(ligantes) + """]}
             """)
+        print("Extract PDB")
 
         self.estruturas.append(estrutura)
 

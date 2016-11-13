@@ -68,6 +68,7 @@ for (; $i < 60; $i++) {
     <div style="position: relative; text-align: center" class="col-lg-4">
         <?= $form->field($model, 'nome')->textInput(); ?>
         <?= $form->field($model, 'comentario')->textarea(["rows" => 10, 'maxLength' => 255])->label("Comentário"); ?>
+        <?= $form->field($model, 'paralelismo')->checkbox()->label("Paralelismo"); ?>
         <?= $form->field($model, 'inicio')->widget(\yii\jui\DatePicker::classname(), ['model' => $model, 'attribute' => 'inicio', 'dateFormat' => 'dd/MM/yyyy', 'language' => 'pt-br', 'options' => ['class' => 'col-lg-3 form-control']])->label("Início"); ?>
         <div style="text-align: left">
             <?= $form->field($model, 'hora')->dropDownList($hora)->label("Hora início") ?>

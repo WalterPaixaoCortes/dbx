@@ -22,6 +22,7 @@ class AgendamentoForm extends Model
     public $hora = 00;
     public $minuto = 00;
     public $id;
+    public $paralelismo = true;
     /**
      * @return array the validation rules.
      */
@@ -32,6 +33,7 @@ class AgendamentoForm extends Model
             //[['file'], 'file', 'required', 'skipOnEmpty'=>false, 'extensions' => 'zip'],
             [['nome'], 'required'],
             ['data', 'default'],
+            ['paralelismo', 'default'],
             [['intervalo'], 'integer', 'integerOnly'=>true, 'min'=>1],
             [['hora', 'minuto', 'inicio'], 'required'],
             [['comentario'], 'string', 'length'=>[0,255]],

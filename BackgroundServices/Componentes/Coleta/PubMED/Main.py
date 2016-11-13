@@ -8,7 +8,7 @@ from Modulos.ComponenteColeta import ComponenteColeta
 class Main(ComponenteColeta):
 
     def extract(self):
-        print("Extract")
+        print("Extract PubMED")
 
         self.artigos = []
 
@@ -65,6 +65,7 @@ class Main(ComponenteColeta):
                 artigo['dados']['data'] = time.strftime("%Y-%m-%d",time.strptime(data[0].find("Day").text+"/"+data[0].find("Month").text+"/"+data[0].find("Year").text, "%d/%b/%Y"))
             artigo['dados']['link'] = "https://www.ncbi.nlm.nih.gov/pubmed/?term="+id
             self.artigos.append(artigo)
+            print("Extract PubMED")
 
         self.novosAutores = list(set(self.novosAutores))
         return
@@ -74,7 +75,7 @@ class Main(ComponenteColeta):
         return
 
     def save(self):
-        print("Save")
+        print("Save PubMED")
         for autor in self.novosAutores:
             self.database.insert("autores", {"nome": autor})
         for artigo in self.artigos:
@@ -82,4 +83,5 @@ class Main(ComponenteColeta):
             id = self.database.find("artigos", where=[" link like %s" % (artigo['dados']['link'],)], colunas=['id'], ordem='order by id desc limit 1')
             a = 'INSERT INTO autores_artigos (idArtigo, idAutor) Select '+str(id[0]['id'])+' as idArtigo, id as idAutor From autores Where autores.nome in ("' + ('", "'.join(artigo['autores'])) + '")'
             self.database.execute(a)
+            print("Save PubMED")
         return
