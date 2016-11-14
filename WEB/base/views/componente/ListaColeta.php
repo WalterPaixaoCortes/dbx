@@ -17,15 +17,14 @@ $this->title = 'Componentes Coleta';
     if(Yii::$app->getSession()->getFlash('msg') != null){
         echo '<p style="color: #FF0000">'.Yii::$app->getSession()->getFlash('msg').'</p>';
     }
+    echo Html::a('<button type="button" class="btn btn-primary">Adicionar</button>', ['componente/upload-coleta'], ['options' => ['class' => 'btn btn-primary btn-block btn']]) . "</br>";
     ?>
 </div>
 <div class="table-responsive" style="padding: 10px">
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Nome</th>
-            <th>Tabela</th>
             <th>Criação</th>
             <th>Última Alteração</th>
             <th>Ações</th>
@@ -36,12 +35,10 @@ $this->title = 'Componentes Coleta';
         foreach ($componentes as $c) {
             echo '
             <tr>
-                <td>'.$c['ID'].'</td>
                 <td>'.$c['Nome'].'</td>
-                <td>'.$c['NomeTabela'].'</td>
                 <td>'.$c['Criacao'].'</td>
                 <td>'.$c['Alteracao'].'</td>
-                <td>'.Html::a("Remover", ['componente/remover-coleta', 'componente'=>$c['ID']]).' / Editar</td>
+                <td>'.Html::a("Editar", ['componente/editar-coleta', 'componente'=>$c['Nome']]).'/ '.Html::a("Remover", ['componente/remover-coleta', 'componente'=>$c['ID']]).' </td>
             </tr>';
         }
         ?>

@@ -17,6 +17,7 @@ $this->title = 'Componentes Visuais';
     if(Yii::$app->getSession()->getFlash('msg') != null){
         echo '<p style="color: #FF0000">'.Yii::$app->getSession()->getFlash('msg').'</p>';
     }
+    echo Html::a('<button type="button" class="btn btn-primary">Adicionar</button>', ['componente/upload-visual'], ['options' => ['class' => 'btn btn-primary btn-block btn']]) . "</br>";
     ?>
 </div>
 <div class="table-responsive" style="padding: 10px">

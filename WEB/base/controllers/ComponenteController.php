@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ComponenteColetaDAO;
+use app\models\ComponenteColetaForm;
 use app\models\ComponenteVisualDAO;
 use app\models\UploadRefinamentoForm;
 use app\models\UploadColetaForm;
@@ -29,7 +30,7 @@ class ComponenteController extends Controller
 //                'only' => ['upload-coleta'],
                 'rules' => [
                     [
-                        'actions' => ['upload-refinamento', 'upload-coleta', 'upload-visual', 'index', 'componentes-coleta', 'remover-coleta',  'componentes-visuais', 'remover-visual'],
+                        'actions' => ['upload-refinamento', 'upload-coleta', 'upload-visual', 'index', 'componentes-coleta', 'remover-coleta', 'editar-coleta', 'componentes-visuais', 'remover-visual'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -61,23 +62,64 @@ class ComponenteController extends Controller
 
     public function actionComponentesColeta()
     {
-        return $this->render("ListaColeta", ['componentes'=>ComponenteColetaDAO::listAll()]);
+        return $this->render("ListaColeta", ['componentes' => ComponenteColetaDAO::listAll()]);
     }
 
     public function actionComponentesVisuais()
     {
-        return $this->render("ListaVisual", ['componentes'=>ComponenteVisualDAO::listAll()]);
+        return $this->render("ListaVisual", ['componentes' => ComponenteVisualDAO::listAll()]);
     }
+
+    public function actionEditarColeta()
+    {
+        $visuais = ComponenteVisualDAO::listAll();
+        $model = new ComponenteColetaForm();
+        $dao = new ComponenteColetaDAO();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if (!$model->hasErrors()) {
+                $post = Yii::$app->request->post();
+                $dao->Nome = $model->nome;
+                 foreach ($post['proteina'] as $p){
+                     $model->proteinas[] = $p;
+                 }
+                if($dao->atualizarConfiguracaoComponente($model->proteinas, $model->visual)){
+                    Yii::$app->getSession()->setFlash('msg', "Configuração salva!");
+                    return $this->redirect(['componente/componentes-coleta']);
+                }
+                Yii::$app->getSession()->setFlash('msg', "Erro ao tentar salvar.");
+            }
+        } else {
+            if (Yii::$app->request->get('componente') == '') {
+                return $this->redirect(['componente/componentes-coleta']);
+            }
+        }
+        $dao->Nome = Yii::$app->request->get('componente');
+        $componente = $dao->configuracaoComponente();
+        if(empty($componente)){
+            return $this->redirect(['componente/componentes-coleta']);
+        }
+        $model->visual = 0;
+        $model->nome = $dao->Nome;
+        if (isset($componente[0]['componenteVisual'])) {
+            $model->visual = $componente[0]['componenteVisual'];
+        }
+        foreach ($componente as $c) {
+            $model->proteinas[$c["Configuracao"]] = isset($c["proteina"]);
+        }
+        return $this->render('Editar', ['model' => $model, "visuais" => $visuais]);
+    }
+
 
     public function actionRemoverColeta()
     {
         $componente = Yii::$app->request->get('componente');
-        if(isset($componente) && $componente > 0){
+        if (isset($componente) && $componente > 0) {
             $c = ComponenteColetaDAO::findIdentity($componente);
-            if($c->remover()){
+            if ($c->remover()) {
                 \Yii::$app->getSession()->setFlash('msg', "Componente removido.");
-            }else{
-                \Yii::$app->getSession()->setFlash('msg', "Erro ao tentar remover componente.");
+            } else {
+                \Yii::$app->getSession()->setFlash('msg', "O componente está vinculado a um agendamento e não pode ser removido.");
             }
         }
         return $this->redirect(['componente/componentes-coleta']);
@@ -86,11 +128,11 @@ class ComponenteController extends Controller
     public function actionRemoverVisual()
     {
         $componente = Yii::$app->request->get('componente');
-        if(isset($componente) && $componente > 0){
+        if (isset($componente) && $componente > 0) {
             $c = ComponenteVisualDAO::findIdentity($componente);
-            if($c->remover()){
+            if ($c->remover()) {
                 \Yii::$app->getSession()->setFlash('msg', "Componente removido.");
-            }else{
+            } else {
                 \Yii::$app->getSession()->setFlash('msg', "O componente visual está vinculado e não pode ser removido.");
             }
         }
@@ -101,7 +143,7 @@ class ComponenteController extends Controller
     {
         $model = new UploadColetaForm();
         if ($model->load(Yii::$app->request->post())) {
-            if($this->upload($model)){
+            if ($this->upload($model)) {
                 return $this->redirect(['componente/componentes-coleta']);
             }
         }
@@ -114,7 +156,7 @@ class ComponenteController extends Controller
     {
         $model = new UploadRefinamentoForm();
         if ($model->load(Yii::$app->request->post())) {
-            if($this->upload($model)){
+            if ($this->upload($model)) {
                 return $this->redirect(['componente/componentes-refinamento']);
             }
         }
@@ -127,7 +169,7 @@ class ComponenteController extends Controller
     {
         $model = new UploadVisualForm();
         if ($model->load(Yii::$app->request->post())) {
-            if($this->upload($model)){
+            if ($this->upload($model)) {
                 return $this->redirect(['componente/componentes-visuais']);
             }
         }

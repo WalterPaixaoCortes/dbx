@@ -59,7 +59,7 @@ class ProteinaDAO extends ActiveRecord
             $where = " AND proteinas.nome like '%" . $nome . "%' ";
             $join = "inner join proteinas on proteinas.id = componentescoletarefinamento.proteina";
         }
-        $q = Yii::$app->db->createCommand('Select proteina, nometabela, componentescoletarefinamento.id as id from componentescoletarefinamento ' . $join . " Where componentescoletarefinamento.proteina IS NOT NULL AND componentescoletarefinamento.NomeTabela IS NOT NULL " . $where)->queryAll();
+        $q = Yii::$app->db->createCommand('Select proteina, nometabela, componentescoletarefinamento.id as id from componentescoletarefinamento ' . $join . " Where componentescoletarefinamento.proteina IS NOT NULL AND componentescoletarefinamento.NomeTabela IS NOT NULL AND componentescoletarefinamento.componenteVisual IS NOT NULL " . $where)->queryAll();
         $novaq = "";
         $controle = false;
 

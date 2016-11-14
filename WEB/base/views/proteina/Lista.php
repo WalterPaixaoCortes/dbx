@@ -29,6 +29,7 @@ $this->title = 'Pesquisa';
         </div>
         <div style="width: 100%; position:relative; float: left;">
             <?= Html::submitButton('Buscar', ['class' => 'btn btn-primary',]) ?>
+            <?php echo Html::a('<button type="button" class="btn btn-primary">Adicionar</button>', ['proteina/adicionar'], ['options' => ['class' => 'btn btn-primary btn-block btn']]) . "</br>";?>
         </div>
         <?php ActiveForm::end(); ?>
     </div>

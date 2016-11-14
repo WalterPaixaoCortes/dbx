@@ -8,11 +8,16 @@ from Modulos.ComponenteColeta import ComponenteColeta
 class Main(ComponenteColeta):
 
     def extract(self):
-        print("Extract PubMED")
+        print("Extract")
+
+        if self.idProteina == None:
+            pprint.pprint(self.idProteina)
+            return
+        self.proteina = str((self.database.find("proteinas", where=['id = '+str(self.idProteina)]))[0]['nome'])
 
         self.artigos = []
 
-        url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=InhA[title]&retmax=1000"
+        url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term="+self.proteina+"[title]&retmax=1000"
         req = xml.fromstring(urllib.urlopen(url).read().decode())
         count = int(req.find("Count").text);
         retmax = int(req.find("RetMax").text)
@@ -38,7 +43,7 @@ class Main(ComponenteColeta):
             if(i >= iteracoes):
                 break
             start = retmax*i
-            url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=InhA[TI]&retmax=100&retstart="+str(start)
+            url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term="+self.proteina+"[TI]&retmax=100&retstart="+str(start)
             req = xml.fromstring(urllib.urlopen(url).read().decode())
 
         for id in ids:
@@ -63,9 +68,9 @@ class Main(ComponenteColeta):
             data = list(req.iter("ArticleDate"))
             if data:
                 artigo['dados']['data'] = time.strftime("%Y-%m-%d",time.strptime(data[0].find("Day").text+"/"+data[0].find("Month").text+"/"+data[0].find("Year").text, "%d/%b/%Y"))
+                print(artigo['dados']['data'])
             artigo['dados']['link'] = "https://www.ncbi.nlm.nih.gov/pubmed/?term="+id
             self.artigos.append(artigo)
-            print("Extract PubMED")
 
         self.novosAutores = list(set(self.novosAutores))
         return
@@ -75,7 +80,7 @@ class Main(ComponenteColeta):
         return
 
     def save(self):
-        print("Save PubMED")
+        print("Save")
         for autor in self.novosAutores:
             self.database.insert("autores", {"nome": autor})
         for artigo in self.artigos:
@@ -83,5 +88,4 @@ class Main(ComponenteColeta):
             id = self.database.find("artigos", where=[" link like %s" % (artigo['dados']['link'],)], colunas=['id'], ordem='order by id desc limit 1')
             a = 'INSERT INTO autores_artigos (idArtigo, idAutor) Select '+str(id[0]['id'])+' as idArtigo, id as idAutor From autores Where autores.nome in ("' + ('", "'.join(artigo['autores'])) + '")'
             self.database.execute(a)
-            print("Save PubMED")
         return

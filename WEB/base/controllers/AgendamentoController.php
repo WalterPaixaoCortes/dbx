@@ -60,7 +60,7 @@ class AgendamentoController extends Controller
 
     public function actionIndex()
     {
-        return $this->render("Index");
+        return $this->redirect(['agendamento/lista']);
     }
 
     public function actionAdicionar()

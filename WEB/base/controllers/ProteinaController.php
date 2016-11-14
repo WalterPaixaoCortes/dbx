@@ -59,7 +59,7 @@ class ProteinaController extends Controller
 
     public function actionIndex()
     {
-        return $this->render("Index");
+        return $this->redirect(['proteina/lista']);
     }
 
     public function actionLista()

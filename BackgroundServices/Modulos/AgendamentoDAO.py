@@ -1,4 +1,4 @@
-
+import pprint
 
 class AgendamentoDAO():
 
@@ -12,7 +12,7 @@ class AgendamentoDAO():
             p.id = a['id']
             p.nome = a['nome']
             p.paralelismo = a['paralelismo']
-            p.componentes = databaseADM.query("SELECT idComponente as id, nome, nometabela, ordem, tipo, proteina FROM agendamentos_componentes inner join componentescoletarefinamento on componentescoletarefinamento.id = idComponente Where idAgendamento = "+str(a['id'])+" order by idAgendamento, ordem")
+            p.componentes = databaseADM.query("SELECT id, nome, nometabela, ordem, tipo, proteina FROM agendamentos_componentes inner join componentescoletarefinamento on componentescoletarefinamento.nome = idComponente Where idAgendamento = "+str(a['id'])+" and componentescoletarefinamento.ativo = 1 order by idAgendamento, ordem")
             pendentes.append(p)
         return pendentes
 

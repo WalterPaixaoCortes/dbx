@@ -8,7 +8,13 @@ class Main(ComponenteColeta):
 
     def extract(self):
         self.estruturas = []
-        print("Extract PDB")
+        print("Extract")
+
+
+        if self.idProteina == None:
+            pprint.pprint(self.idProteina)
+            return
+        self.proteina = str((self.database.find("proteinas", where=['id = '+str(self.idProteina)]))[0]['nome'])
 
         temp = self.database.find(self.tabela, colunas=['estrutura'])
         atuais = []
@@ -33,8 +39,7 @@ class Main(ComponenteColeta):
     def save(self):
         for estrutura in self.estruturas:
             self.database.insert(self.tabela, estrutura)
-            print("Save PDB")
-        print("Save PDB")
+        print("Save")
         return
 
     def queryPDB(self, url, query_xml = None):
@@ -51,8 +56,8 @@ class Main(ComponenteColeta):
         query = """<?xml version="1.0" encoding="UTF-8"?>
         <orgPdbQuery>
         <queryType>org.pdb.query.simple.SequenceClusterQuery</queryType>
-        <description>Sequence Cluster Name Search : Name=InhA</description>
-        <sequenceClusterName>InhA</sequenceClusterName>
+        <description>Sequence Cluster Name Search : Name="""+self.proteina+"""</description>
+        <sequenceClusterName>"""+self.proteina+"""</sequenceClusterName>
         <comparator>equals</comparator>
         </orgPdbQuery>"""
 
@@ -67,6 +72,7 @@ class Main(ComponenteColeta):
 
 
     def carregar_estrutura(self, eID):
+        pprint.pprint(eID)
         url = "http://www.rcsb.org/pdb/rest/customReport.xml?pdbids="+str(eID)+"&customReportColumns=structureTitle,pdbDoi,classification,depositionDate,releaseDate,structureAuthor,source,expressionHost,experimentalTechnique,resolution,title,authorAssignedEntityName,chainLength,geneName,ligandName"
         req = urllib.urlopen(url).read().decode()
         req = xml.fromstring(req)
@@ -102,8 +108,13 @@ class Main(ComponenteColeta):
         for k,c in cadeias.items():
             cadeias[k] = ",".join(c)
 
+        if len(cadeias) > 1:
+            print(estrutura['estrutura'])
+
         macromoleculas = []
+
         e = []
+
         for m in req:
             if m.find("dimEntity.compound").text in e:
                 continue
@@ -151,7 +162,6 @@ class Main(ComponenteColeta):
                     \"colunas\":[\"ID\",\"Nome\",\"Fórmula\",\"InChIKey\"],
                     \"valores\":[""" + ", ".join(ligantes) + """]}
             """)
-        print("Extract PDB")
 
         self.estruturas.append(estrutura)
 

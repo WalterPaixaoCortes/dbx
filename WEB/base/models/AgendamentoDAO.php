@@ -69,7 +69,7 @@ class AgendamentoDAO extends ActiveRecord
         $i = 0;
         foreach ($this->componentes as $comp){
             if($comp == ''){continue;}
-            \Yii::$app->db->createCommand("INSERT INTO agendamentos_componentes (idAgendamento, idComponente, ordem) VALUES (".$this->id.", ".$comp.",".$i.");")->execute();
+            \Yii::$app->db->createCommand("INSERT INTO agendamentos_componentes(idAgendamento, idComponente, ordem) Select DISTINCT ".$this->id.", componentescoletarefinamento.Nome, ".$i." From componentescoletarefinamento  where componentescoletarefinamento.id = ".$comp.";")->execute();
             $i++;
         }
         return true;
@@ -89,10 +89,10 @@ class AgendamentoDAO extends ActiveRecord
     }
 
     public function carregarComponentes(){
-        $c = \Yii::$app->db->createCommand("Select idComponente From agendamentos_componentes Where idAgendamento = ".$this->id." order by ordem;")->queryAll();
+        $c = \Yii::$app->db->createCommand("Select componentescoletarefinamento.ID From agendamentos_componentes inner join componentescoletarefinamento on componentescoletarefinamento.Nome = agendamentos_componentes.idComponente Where idAgendamento = ".$this->id." order by ordem;")->queryAll();
         $this->componentes = [];
         foreach ($c as $comp){
-            $this->componentes[] = $comp['idComponente'];
+            $this->componentes[] = $comp['ID'];
         }
     }
 }
