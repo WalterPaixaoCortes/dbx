@@ -87,7 +87,7 @@ class AgendamentoController extends Controller
                 Yii::$app->getSession()->setFlash('msg', "Erro ao tentar salvar o agendamento.");
             }
         }
-        $componentes = ComponenteColetaDAO::listAll();
+        $componentes = ComponenteDAO::listAll();
         return $this->render("Agendamento", ['model'=>$model, 'componentes'=>$componentes, 'selecionados'=>[]]);
     }
 

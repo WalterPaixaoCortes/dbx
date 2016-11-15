@@ -31,18 +31,19 @@ class Controlador:
                 try:
                     for c in a.componentes:
                         print("Iniciando componente "+c['nome'])
+
                         if c['tipo'] == "col":
                             t = ThreadComponenteColeta(i, self.databaseComponentes, c, a)
-                            t.start()
                         if c['tipo'] == "ref":
-                            ThreadComponenteRefinamento(i, self.databaseADM, c, a)
-                            t.start()
+                            t = ThreadComponenteRefinamento(i, self.databaseADM, c, a)
+                        t.start()
                         i = i + 1
 
                         if a.paralelismo == True:
                             threads.append(t)
                         else:
                             t.join()
+
                     for t in threads:
                         print("Aguardando thread " + t.componente['nome'])
                         t.join()
@@ -94,19 +95,17 @@ class ThreadComponenteRefinamento(threading.Thread):
 
     def run(self):
         try:
-            Log.adicionar(
-                "Executando ComponenteID:" + str(self.componente['id']) + " ComponenteNome:" + self.componente[
-                    'nome'] + " AgendamentoID: " + str(self.agendamento.id))
-            self.carregar_refinamento(self.componente['nome'])
+            Log.adicionar("Executando ComponenteID:" + str(self.componente['id']) + " ComponenteNome:" + self.componente['nome'] + " AgendamentoID: " + str(self.agendamento.id))
+            self.carregar_refinamento(self.componente['nome'], self.componente['id'])
         except ImportError:
-            Log.adicionar(
-                "Erro ao tentar importar componente. ComponenteID:" + str(self.componente['id']) + " ComponenteNome:" +
-                self.componente['nome'] + " AgendamentoID: " + str(self.agendamento.id))
+            Log.adicionar("Erro ao tentar importar componente. ComponenteID:" + str(self.componente['id']) + " ComponenteNome:" +self.componente['nome'] + " AgendamentoID: " + str(self.agendamento.id))
         except:
-            Log.adicionar("Erro ao tentar executar o componente. ComponenteID:" + str(
-                self.componente['id']) + " ComponenteNome:" + self.componente['nome'] + " AgendamentoID: " + str(
-                self.agendamento.id))
+            Log.adicionar("Erro ao tentar executar o componente. ComponenteID:" + str(self.componente['id']) + " ComponenteNome:" + self.componente['nome'] + " AgendamentoID: " + str(self.agendamento.id))
 
-    def carregar_refinamento(self, nome):
+    def carregar_refinamento(self, nome, id):
         # carrega componente de refinamento
+        Main = importlib.import_module("Componentes.Refinamento." + nome + ".Main")
+        m = Main.Main(self.database, id)
+        m.extract()
+        m.save()
         return

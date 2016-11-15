@@ -1,9 +1,16 @@
 from .Componente import *
 
 class ComponenteRefinamento(Componente):
-    tabela = None
 
-    def __init__(self, d, t):
+    def __init__(self, d, id):
         Componente.__init__(self, d)
-        self.tabela = t
+        self.dir = "./Resultados"
+        self.idComponente = id
+        return
+
+    def extract(self):
+        # print("extract")
+        return
+
+    def save(self):
         return
