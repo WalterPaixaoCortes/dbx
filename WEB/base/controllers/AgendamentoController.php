@@ -9,6 +9,7 @@ use app\models\ArtigoForm;
 use app\models\BuscarAgendamentoForm;
 use app\models\BuscarProteinaForm;
 use app\models\ComponenteColetaDAO;
+use app\models\ComponenteDAO;
 use app\models\UploadRefinamentoForm;
 use app\models\UploadColetaForm;
 use app\models\UploadForm;
@@ -128,7 +129,7 @@ class AgendamentoController extends Controller
                 $model->id = $agendamento->id;
             }
         }
-        $componentes = ComponenteColetaDAO::listAll();
+        $componentes = ComponenteDAO::listAll();
         return $this->render("Agendamento", ['model'=>$model, 'componentes'=>$componentes, 'selecionados'=>$selecionados]);
     }
 

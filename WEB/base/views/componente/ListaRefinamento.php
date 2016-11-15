@@ -12,12 +12,12 @@ $this->title = 'Componentes Coleta';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div style="text-align: center">
-    <h2>Componentes de Coleta</h2></br>
+    <h2>Componentes de Refinamento</h2></br>
     <?php
     if(Yii::$app->getSession()->getFlash('msg') != null){
         echo '<p style="color: #FF0000">'.Yii::$app->getSession()->getFlash('msg').'</p>';
     }
-    echo Html::a('<button type="button" class="btn btn-primary">Adicionar</button>', ['componente/upload-coleta'], ['options' => ['class' => 'btn btn-primary btn-block btn']]) . "</br>";
+    echo Html::a('<button type="button" class="btn btn-primary">Adicionar</button>', ['componente/upload-refinamento'], ['options' => ['class' => 'btn btn-primary btn-block btn']]) . "</br>";
     ?>
 </div>
 <div class="table-responsive" style="padding: 10px">
@@ -36,7 +36,7 @@ $this->title = 'Componentes Coleta';
             <tr>
                 <td>'.$c['Nome'].'</td>
                 <td>'.$c['Criacao'].'</td>
-                <td>'.Html::a("Editar", ['componente/editar-coleta', 'componente'=>$c['Nome']]).'/ '.Html::a("Remover", ['componente/remover-coleta', 'componente'=>$c['ID']]).' </td>
+                <td>'.Html::a("Remover", ['componente/remover-refinamento', 'componente'=>$c['ID']]).' </td>
             </tr>';
         }
         ?>

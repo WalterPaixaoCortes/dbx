@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\ComponenteColetaDAO;
 use app\models\ComponenteColetaForm;
+use app\models\ComponenteRefinamentoDAO;
 use app\models\ComponenteVisualDAO;
 use app\models\UploadRefinamentoForm;
 use app\models\UploadColetaForm;
@@ -30,7 +31,7 @@ class ComponenteController extends Controller
 //                'only' => ['upload-coleta'],
                 'rules' => [
                     [
-                        'actions' => ['upload-refinamento', 'upload-coleta', 'upload-visual', 'index', 'componentes-coleta', 'remover-coleta', 'editar-coleta', 'componentes-visuais', 'remover-visual'],
+                        'actions' => ['upload-refinamento', 'upload-coleta', 'upload-visual', 'index', 'componentes-coleta', 'componentes-refinamento', 'remover-coleta', 'remover-refinamento', 'editar-coleta', 'componentes-visuais', 'remover-visual'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -63,6 +64,11 @@ class ComponenteController extends Controller
     public function actionComponentesColeta()
     {
         return $this->render("ListaColeta", ['componentes' => ComponenteColetaDAO::listAll()]);
+    }
+
+    public function actionComponentesRefinamento()
+    {
+        return $this->render("ListaRefinamento", ['componentes' => ComponenteRefinamentoDAO::listAll()]);
     }
 
     public function actionComponentesVisuais()
@@ -123,6 +129,21 @@ class ComponenteController extends Controller
             }
         }
         return $this->redirect(['componente/componentes-coleta']);
+    }
+
+
+    public function actionRemoverRefinamento()
+    {
+        $componente = Yii::$app->request->get('componente');
+        if (isset($componente) && $componente > 0) {
+            $c = ComponenteRefinamentoDAO::findIdentity($componente);
+            if ($c->remover()) {
+                \Yii::$app->getSession()->setFlash('msg', "Componente removido.");
+            } else {
+                \Yii::$app->getSession()->setFlash('msg', "O componente está vinculado a um agendamento e não pode ser removido.");
+            }
+        }
+        return $this->redirect(['componente/componentes-refinamento']);
     }
 
     public function actionRemoverVisual()

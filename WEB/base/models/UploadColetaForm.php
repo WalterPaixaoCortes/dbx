@@ -76,7 +76,7 @@ class UploadColetaForm extends UploadForm
         return true;
     }
 
-    public function carregarArquivos($d)
+    public function carregar($d)
     {
         if (!is_dir($d)) {
             $this->addError('file', 'Erro ao carregar os arquivos.');
@@ -112,7 +112,7 @@ class UploadColetaForm extends UploadForm
             return true;
         }
         $comp = new ComponenteColetaDAO();
-        $comp->adicionar($tabela->componente, "col", $tabela->proteinas);
+        $comp->adicionar($tabela->componente, $tabela->proteinas);
         return true;
     }
 }

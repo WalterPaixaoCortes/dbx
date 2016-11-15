@@ -5,8 +5,10 @@ namespace app\models;
 use yii\base\Exception;
 use yii\db\ActiveRecord;
 
-class ComponenteColetaDAO extends ActiveRecord
+class ComponenteColetaDAO extends ComponenteDAO
 {
+
+    private $tipo = 'col';
 
     public static function tableName()
     {
@@ -51,25 +53,13 @@ class ComponenteColetaDAO extends ActiveRecord
         return ComponenteColetaDAO::find()->select(['ID','Nome','Criacao','Alteracao'])->groupBy("Nome")->where(['tipo'=>'col', "Ativo"=>"1"])->all();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function remover()
-    {
-        $db = \Yii::$app->db;
-        if($db->createCommand("Select count(*) as qnt From agendamentos_componentes Where idComponente like '".$this->Nome."';")->queryAll()[0]['qnt']>0){
-            return false;
-        }
-        return $db->createCommand("Update componentescoletarefinamento Set Ativo = 0 Where Nome like '".$this->Nome."'")->execute();
-    }
-
-    public function adicionar($nome, $tipo, $proteinas){
+    public function adicionar($nome, $proteinas){
         $db = \Yii::$app->db;
         $transaction = $db->beginTransaction();
 
         try {
             foreach ($proteinas as $p){
-                $db->createCommand("INSERT INTO componentescoletarefinamento (Nome, Tipo, Configuracao, Criacao, Alteracao) VALUES ('" . $nome . "', '" . $tipo . "','".$p."', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);")->execute();
+                $db->createCommand("INSERT INTO componentescoletarefinamento (Nome, Tipo, Configuracao, Criacao, Alteracao) VALUES ('" . $nome . "', '" . $this->tipo . "','".$p."', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);")->execute();
             }
 
             $transaction->commit();

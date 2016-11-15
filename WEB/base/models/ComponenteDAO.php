@@ -1,0 +1,43 @@
+<?php
+
+namespace app\models;
+
+use yii\base\Exception;
+use yii\db\ActiveRecord;
+
+class ComponenteDAO extends ActiveRecord
+{
+    public static function tableName()
+    {
+        return "componentescoletarefinamento";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
+    {
+        return ComponenteDAO::findOne(['ID'=>$id]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function listAll()
+    {
+        return ComponenteDAO::find()->select(['ID','Nome','Criacao','Alteracao'])->groupBy("Nome")->where(["Ativo"=>"1"])->all();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function remover()
+    {
+        $db = \Yii::$app->db;
+        if($db->createCommand("Select count(*) as qnt From agendamentos_componentes Where idComponente like '".$this->Nome."';")->queryAll()[0]['qnt']>0){
+            return false;
+        }
+        return $db->createCommand("Update componentescoletarefinamento Set Ativo = 0 Where Nome like '".$this->Nome."'")->execute();
+    }
+
+}

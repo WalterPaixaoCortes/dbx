@@ -3,9 +3,12 @@
 namespace app\models;
 
 use Yii;
+use yii\base\ErrorException;
 use yii\base\Exception;
 use yii\base\Model;
 use ZipArchive;
+use DOMDocument;
+use SimpleXMLElement;
 
 /**
  * LoginForm is the model behind the login form.
@@ -34,10 +37,53 @@ class UploadRefinamentoForm extends UploadForm
     }
 
     public function verificarArquivos($zip){
-//        for($i = 0; $i < $zip->numFiles; $i++){
-//            var_dump($zip->getFromIndex($i));
-//        }
-//        die(var_dump($this->dir));
-        return false;
+        try {
+            $main = "" . $zip->getFromName("Main.py");
+            if (!(strpos($main, "class Main(ComponenteColeta):") &&
+                strpos($main, "def extract(self):") &&
+                strpos($main, "def save(self):"))
+            ) {
+                $this->addError('file', 'Arquivo Main.py inválido.');
+                return false;
+            }
+
+        } catch (ErrorException $e) {
+            $this->addError('file', 'Arquivo Main.py inválido.');
+            return false;
+        }
+
+        //Verificacao Config.xml
+        try {
+            $dom = new DOMDocument();
+            $dom->loadXML($zip->getFromName("Config.xml"));
+        } catch (ErrorException $e) {
+            $this->addError('file', 'Arquivo Config.xml inválido.');
+            return false;
+        }
+
+        return true;
+    }
+
+    public function carregar($d)
+    {
+        if (!is_dir($d)) {
+            $this->addError('file', 'Erro ao carregar os arquivos.');
+            return false;
+        }
+
+        try {
+            $xml = simplexml_load_file($d . "/Config.xml");
+            $componente = $xml['nome'] . "";
+            if($componente == ""){
+                return false;
+            }
+
+            $comp = new ComponenteRefinamentoDAO();
+            $comp->adicionar($componente);
+        }catch (Exception $e){
+            $this->addError('file', 'Erro ao carregar os arquivos.');
+            return false;
+        }
+        return true;
     }
 }

@@ -59,7 +59,7 @@ class UploadForm extends Model
        return false;
     }
 
-    public function carregarArquivos($d){
+    public function carregar($d){
         return false;
     }
 
@@ -80,7 +80,10 @@ class UploadForm extends Model
             exec("chmod 777 ".$this->dir .'/'.$this->file->baseName);
             $f = fopen($this->dir .'/'.$this->file->baseName."/__init__.py", "w+");
             fclose($f);
-            $this->carregarArquivos($this->dir .'/'.$this->file->baseName);
+            if(!$this->carregar($this->dir .'/'.$this->file->baseName)){
+                $this->addError('file', 'Erro ao carregar os arquivos.');
+                return false;
+            }
         }catch (Exception $e){
             die(var_dump($e));
             $this->addError('file', 'Erro ao tentar enviar o arquivo.');
