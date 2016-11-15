@@ -39,7 +39,7 @@ class UploadRefinamentoForm extends UploadForm
     public function verificarArquivos($zip){
         try {
             $main = "" . $zip->getFromName("Main.py");
-            if (!(strpos($main, "class Main(ComponenteColeta):") &&
+            if (!(strpos($main, "class Main(ComponenteRefinamento):") &&
                 strpos($main, "def extract(self):") &&
                 strpos($main, "def save(self):"))
             ) {
