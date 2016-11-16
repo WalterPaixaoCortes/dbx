@@ -4,7 +4,7 @@ class AgendamentoDAO():
 
     @staticmethod
     def listar_pendentes(databaseADM):
-        agendamentos = databaseADM.find("agendamentos", ["ativo = true","((ultimaExecucao + INTERVAL intervalo DAY) <= NOW() OR (ultimaExecucao is NULL And (inicio + INTERVAL intervalo DAY) <= NOW()))"],["id", "nome", "paralelismo"])
+        agendamentos = databaseADM.find("agendamentos", ["ativo = true","((ultimaExecucao + INTERVAL intervalo DAY) <= NOW() OR (ultimaExecucao is NULL And (inicio) <= NOW()))"],["id", "nome", "paralelismo"])
         pendentes = []
         for a in agendamentos:
             p = AgendamentoDAO()

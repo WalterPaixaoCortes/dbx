@@ -34,7 +34,7 @@ class ComponenteDAO extends ActiveRecord
     public function remover()
     {
         $db = \Yii::$app->db;
-        if($db->createCommand("Select count(*) as qnt From agendamentos_componentes Where idComponente like '".$this->Nome."';")->queryAll()[0]['qnt']>0){
+        if($db->createCommand("Select count(*) as qnt From agendamentos_componentes inner join agendamentos on agendamentos.id = agendamentos_componentes.idAgendamento Where agendamentos.ativo = 1 And idComponente like '".$this->Nome."';")->queryAll()[0]['qnt']>0){
             return false;
         }
         return $db->createCommand("Update componentescoletarefinamento Set Ativo = 0 Where Nome like '".$this->Nome."'")->execute();

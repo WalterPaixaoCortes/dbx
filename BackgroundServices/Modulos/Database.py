@@ -16,7 +16,6 @@ class Database:
     def insert(self, tabela, values):
         cnx = mysql.connector.connect(**self.conexao)
         cursor = cnx.cursor()
-        # cursor.execute()
         for k, v in values.items():
             if not (isinstance(v, int)):
                 values[k] = "'" + v.replace("'","\\'") + "'"
@@ -29,7 +28,7 @@ class Database:
         cnx.close()
         return
 
-    #Find(tabela, where[])
+    #Find(tabela, where[], colunas[], ordem, dicionario)
     def find(self, tabela, where = [], colunas = [], ordem = "", dict=True):
         cnx = mysql.connector.connect(**self.conexao)
         cursor = cnx.cursor(dictionary=dict)
