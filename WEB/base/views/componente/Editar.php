@@ -39,10 +39,13 @@ $form = ActiveForm::begin([
             ?>
             <?= $form->field($model, 'visual')->dropDownList($lista)->label("Componente Visual") ?>
             <?= $form->field($model, 'nome')->hiddenInput()->label(""); ?>
-            <h5><b>Proteínas:</b></h5>
+
             <?php
-            foreach ($model->proteinas as $p=>$v){
-                echo '<input type="checkbox" name="proteina[]" id="proteina_'.$p.'" value="'.$p.'" '.($v?"checked":"").'>'.$p.'<br>';
+            if(!empty($model->proteinas)){
+                echo "<h5><b>Proteínas:</b></h5>";
+                foreach ($model->proteinas as $p=>$v){
+                    echo '<input type="checkbox" name="proteina[]" id="proteina_'.$p.'" value="'.$p.'" '.($v?"checked":"").'>'.$p.'<br>';
+                }
             }
             ?>
     </div>

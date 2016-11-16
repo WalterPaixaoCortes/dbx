@@ -60,7 +60,7 @@ $this->title = 'Artigos';
                         if ($artigo != null) {
                             echo '<tr>
                             <td><a href="' . $artigo['link'] . '" target="_blank">' . $artigo['titulo'] . '</a></td>
-                            <td>' . date("d/m/Y", strtotime($artigo['data'])) . '</td>
+                            <td>' . ($artigo['data']=="0000-00-00"?" - ":date("d/m/Y", strtotime($artigo['data']))) . '</td>
                             <td>' . ($artigo['proteina'] == null ? " - " : $artigo['proteina']) . '</td>
                             <td>' . ($artigo['abstract'] == null ? " - " : '<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal' . $a['id'] . '">Ler</button>
                                 <div id="myModal' . $a['id'] . '" class="modal fade" role="dialog">
@@ -93,7 +93,7 @@ $this->title = 'Artigos';
                     $id++;
                     echo '<tr>
                             <td><a href="' . $artigo['link'] . '" target="_blank">' . $artigo['titulo'] . '</a></td>
-                            <td>' . date("d/m/Y", strtotime($artigo['data'])) . '</td>
+                            <td>' . ($artigo['data']=="0000-00-00"?" - ":date("d/m/Y", strtotime($artigo['data']))). '</td>
                             <td>' . ($artigo['proteina'] == null ? " - " : $artigo['proteina']) . '</td>
                             <td>' . ($artigo['abstract'] == null ? " - " : '<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal-' . $id . '">Ler</button>
                                 <div id="myModal-' . $id . '" class="modal fade" role="dialog">

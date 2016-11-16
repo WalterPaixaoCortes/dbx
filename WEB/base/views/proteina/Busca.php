@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Button;
 
-$this->title = 'Pesquisa';
+$this->title = 'Proteínas';
 ?>
 
 <div style="text-align: center">

@@ -96,9 +96,9 @@ class ComponenteController extends Controller
         }
         $dao->Nome = Yii::$app->request->get('componente');
         $componente = $dao->configuracaoComponente();
-        if(empty($componente)){
-            return $this->redirect(['componente/componentes-coleta']);
-        }
+//        if(empty($componente)){
+//            return $this->redirect(['componente/componentes-coleta']);
+//        }
         $model->visual = 0;
         $model->nome = $dao->Nome;
         if (isset($componente[0]['componenteVisual'])) {

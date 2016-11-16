@@ -22,7 +22,7 @@ class ComponenteColetaDAO extends ComponenteDAO
 
     public function configuracaoComponente(){
         $db = \Yii::$app->db;
-        return $db->createCommand("Select Nome, proteina, componenteVisual, Configuracao From componentescoletarefinamento Where Nome like '".$this->Nome."' ")->queryAll();
+        return $db->createCommand("Select Nome, proteina, componenteVisual, Configuracao From componentescoletarefinamento Where Nome like '".$this->Nome."' and Configuracao in (Select nome From proteinas)")->queryAll();
     }
 
     public function atualizarConfiguracaoComponente($proteinas, $visual){
