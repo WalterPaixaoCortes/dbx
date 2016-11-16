@@ -20,15 +20,12 @@ use ZipArchive;
 
 class ComponenteController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
+
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-//                'only' => ['upload-coleta'],
                 'rules' => [
                     [
                         'actions' => ['upload-refinamento', 'upload-coleta', 'upload-visual', 'index', 'componentes-coleta', 'componentes-refinamento', 'remover-coleta', 'remover-refinamento', 'editar-coleta', 'componentes-visuais', 'remover-visual'],
@@ -40,9 +37,6 @@ class ComponenteController extends Controller
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function actions()
     {
         return [

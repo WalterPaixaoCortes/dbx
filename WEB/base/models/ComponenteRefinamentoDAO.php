@@ -14,17 +14,11 @@ class ComponenteRefinamentoDAO extends ComponenteDAO
         return "componentescoletarefinamento";
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function findIdentity($id)
     {
         return ComponenteRefinamentoDAO::findOne(['ID'=>$id]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function listAll()
     {
         return ComponenteRefinamentoDAO::find()->select(['ID','Nome','Criacao','Alteracao'])->groupBy("Nome")->where(['tipo'=>'ref', "Ativo"=>"1"])->all();

@@ -12,25 +12,16 @@ class ComponenteDAO extends ActiveRecord
         return "componentescoletarefinamento";
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function findIdentity($id)
     {
         return ComponenteDAO::findOne(['ID'=>$id]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function listAll()
     {
         return ComponenteDAO::find()->select(['ID','Nome','Criacao','Alteracao'])->groupBy("Nome")->where(["Ativo"=>"1"])->all();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function remover()
     {
         $db = \Yii::$app->db;

@@ -18,16 +18,10 @@ class LoginForm extends Model
 
     private $_user = false;
 
-
-    /**
-     * @return array the validation rules.
-     */
     public function rules()
     {
         return [
-            // username and password are both required
             [['username', 'password'], 'required'],
-            // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
     }
@@ -62,11 +56,6 @@ class LoginForm extends Model
         return false;
     }
 
-    /**
-     * Finds user by [[username]]
-     *
-     * @return UserDAO|null
-     */
     public function getUser()
     {
         if ($this->_user === false) {

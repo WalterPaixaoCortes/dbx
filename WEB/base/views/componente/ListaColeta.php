@@ -1,15 +1,10 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Button;
 
 $this->title = 'Componentes Coleta';
-//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div style="text-align: center">
     <h2>Componentes de Coleta</h2></br>
@@ -36,7 +31,7 @@ $this->title = 'Componentes Coleta';
             <tr>
                 <td>'.$c['Nome'].'</td>
                 <td>'.$c['Criacao'].'</td>
-                <td>'.Html::a("Editar", ['componente/editar-coleta', 'componente'=>$c['Nome']]).'/ '.Html::a("Remover", ['componente/remover-coleta', 'componente'=>$c['ID']]).' </td>
+                <td>'.Html::a("Configurar", ['componente/editar-coleta', 'componente'=>$c['Nome']]).'/ '.Html::a("Remover", ['componente/remover-coleta', 'componente'=>$c['ID']]).' </td>
             </tr>';
         }
         ?>

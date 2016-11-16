@@ -15,9 +15,6 @@ class ComponenteColetaDAO extends ComponenteDAO
         return "componentescoletarefinamento";
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function findIdentity($id)
     {
         return ComponenteColetaDAO::findOne(['ID'=>$id]);
@@ -45,9 +42,6 @@ class ComponenteColetaDAO extends ComponenteDAO
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function listAll()
     {
         return ComponenteColetaDAO::find()->select(['ID','Nome','Criacao','Alteracao'])->groupBy("Nome")->where(['tipo'=>'col', "Ativo"=>"1"])->all();

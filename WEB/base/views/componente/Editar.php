@@ -1,16 +1,12 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Button;
 use yii\jui;
 use yii\jui\Sortable;
 
-$this->title = 'Componente de Coleta';
+$this->title = 'Configurar Componente';
 
 $form = ActiveForm::begin([
     'id' => 'coleta-form',

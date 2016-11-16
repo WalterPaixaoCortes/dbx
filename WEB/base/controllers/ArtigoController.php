@@ -19,10 +19,6 @@ use ZipArchive;
 class ArtigoController extends Controller
 {
 
-
-    /**
-     * @inheritdoc
-     */
     public function actions()
     {
         return [

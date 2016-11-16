@@ -48,9 +48,6 @@ class ProteinaDAO extends ActiveRecord
         return (ProteinaDAO::deleteAll('id = ' . $this->id) > 0);
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function listarPag($start = 0, $count = 10, $nome = '', $estrutura = '', $ligantes = '')
     {
         $where = '';
@@ -91,9 +88,6 @@ class ProteinaDAO extends ActiveRecord
         return ["lista" => $q, "pags" =>  ($p>0?$p:1)];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function listarProteinasPag($start = 0, $count = 10, $nome = '')
     {
         $where = '';

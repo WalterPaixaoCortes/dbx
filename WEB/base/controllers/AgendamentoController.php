@@ -24,9 +24,6 @@ use DateTime;
 
 class AgendamentoController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -43,9 +40,6 @@ class AgendamentoController extends Controller
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function actions()
     {
         return [

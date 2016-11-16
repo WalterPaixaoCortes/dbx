@@ -10,12 +10,6 @@ use ZipArchive;
 use DOMDocument;
 use SimpleXMLElement;
 
-/**
- * LoginForm is the model behind the login form.
- *
- * @property UserDAO|null $user This property is read-only.
- *
- */
 class UploadRefinamentoForm extends UploadForm
 {
 
@@ -25,13 +19,9 @@ class UploadRefinamentoForm extends UploadForm
         $this->dir = $this->dir.'/Refinamento';
     }
 
-    /**
-     * @return array the validation rules.
-     */
     public function rules()
     {
         return [
-            // username and password are both required
             [['file'], 'file', 'extensions' => 'zip'],
         ];
     }

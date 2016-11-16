@@ -1,9 +1,5 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Button;
@@ -48,7 +44,6 @@ if (!isset($estrutura['proteina'])) {
                 $a = str_replace("{{TABELA;".strtoupper($k)."}}","",$a);
             }
             echo $a;
-//            die(var_dump($a));
         } catch (Exception $e) {
             echo '<p style="text-align: center; color: #ff0000">Erro ao tentar carregar o componente visual.</p>';
         }

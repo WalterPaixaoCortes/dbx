@@ -8,20 +8,12 @@ use yii\db;
 
 class ArtigoDAO extends Model
 {
-    /*public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;*/
 
     public static function tableName()
     {
         return "artigos";
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function listPag($start = 0, $count = 10, $titulo = '', $proteina='', $autor='')
     {
         $where = '';

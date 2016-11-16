@@ -6,12 +6,7 @@ use Yii;
 use yii\base\Model;
 use ZipArchive;
 use DateTime;
-/**
- * LoginForm is the model behind the login form.
- *
- * @property UserDAO|null $user This property is read-only.
- *
- */
+
 class AgendamentoForm extends Model
 {
     public $nome;
@@ -23,14 +18,10 @@ class AgendamentoForm extends Model
     public $minuto = 00;
     public $id;
     public $paralelismo = true;
-    /**
-     * @return array the validation rules.
-     */
+
     public function rules()
     {
         return [
-            // username and password are both required
-            //[['file'], 'file', 'required', 'skipOnEmpty'=>false, 'extensions' => 'zip'],
             [['nome'], 'required'],
             ['data', 'default'],
             ['paralelismo', 'default'],
@@ -43,13 +34,8 @@ class AgendamentoForm extends Model
 
     public function validacao(){
         try{
-//            if($this->minuto < 10){
-//                $this->minuto = "0".$this->minuto;
-//            }
             $d = "".$this->inicio." ".$this->hora.":".$this->minuto.":00";
-//            var_dump($d);
             $this->data = DateTime::createFromFormat("d/m/Y H:i:s", "".$d);
-//            die(var_dump($this->data));
             if($this->data == false){
                 $this->addError("inicio", "Data ou Horário inválido1");
                 return false;

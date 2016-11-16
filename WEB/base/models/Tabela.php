@@ -41,7 +41,6 @@ class Tabela
                     "INSERT INTO componentescoletarefinamento (Nome, Tipo, NomeTabela, Configuracao, Criacao, Alteracao) 
                       VALUES ('" . $this->componente . "', '" . $this->tipo . "', '" . $this->nome. "_" . $p . "', '".$p."', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);")->execute();
             } catch (Exception $e) {
-//                die(var_dump($e));
                 $transaction->rollBack();
                 return false;
             }

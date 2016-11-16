@@ -10,9 +10,6 @@ use app\models\LoginForm;
 
 class LoginController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -36,9 +33,6 @@ class LoginController extends Controller
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function actions()
     {
         return [
@@ -52,11 +46,6 @@ class LoginController extends Controller
         ];
     }
 
-    /**
-     * Login action.
-     *
-     * @return string
-     */
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -72,11 +61,6 @@ class LoginController extends Controller
         ]);
     }
 
-    /**
-     * Logout action.
-     *
-     * @return string
-     */
     public function actionLogout()
     {
         Yii::$app->user->logout();

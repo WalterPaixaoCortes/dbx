@@ -1,7 +1,5 @@
 <?php
 
-/* @var $this yii\web\View */
-
 $this->title = 'DBX';
 ?>
 <div class="site-index">

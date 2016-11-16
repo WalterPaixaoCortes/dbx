@@ -7,12 +7,6 @@ use yii\base\Exception;
 use yii\base\Model;
 use ZipArchive;
 
-/**
- * LoginForm is the model behind the login form.
- *
- * @property UserDAO|null $user This property is read-only.
- *
- */
 class UploadVisualForm extends UploadForm
 {
 

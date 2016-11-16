@@ -22,13 +22,9 @@ class AgendamentoDAO extends ActiveRecord
         return $a;
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function listPag($start = 0, $count = 10, $nome='')
     {
         $where = '';
-        $i = false;
 
         if($nome != '') {
             $where = "And agendamentos.nome like '%" . $nome . "%'";

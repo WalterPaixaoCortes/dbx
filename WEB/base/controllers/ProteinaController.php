@@ -21,9 +21,6 @@ use ZipArchive;
 
 class ProteinaController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -41,9 +38,6 @@ class ProteinaController extends Controller
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function actions()
     {
         return [
