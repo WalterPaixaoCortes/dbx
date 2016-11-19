@@ -46,7 +46,9 @@ $this->title = 'Agendamentos';
             <?php
             $acoes;
             foreach ($agendamentos as $a){
-                $acoes = '<td>'.Html::a("Editar", ['agendamento/editar', 'agendamento'=>$a['id']]).' / '.Html::a("Remover", ['agendamento/remover', 'agendamento'=>$a['id']]).'</td>';
+                $acoes = '<td>'.Html::a("Editar", ['agendamento/editar', 'agendamento'=>$a['id']]).' / '.Html::a("Remover", ['agendamento/remover', 'agendamento'=>$a['id']], ['data' => [
+                        'confirm' => "Deseja confirmar a remoção?",
+                    ]]).'</td>';
                 echo '<tr>
                             <td>' . $a['nome'] . '</td>'.$acoes.'
                           </tr>';

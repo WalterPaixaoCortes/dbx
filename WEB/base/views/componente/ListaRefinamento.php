@@ -31,7 +31,9 @@ $this->title = 'Componentes Refinamento';
             <tr>
                 <td>'.$c['Nome'].'</td>
                 <td>'.$c['Criacao'].'</td>
-                <td>'.Html::a("Remover", ['componente/remover-refinamento', 'componente'=>$c['ID']]).' </td>
+                <td>'.Html::a("Remover", ['componente/remover-refinamento', 'componente'=>$c['ID']], ['data' => [
+                    'confirm' => "Deseja confirmar a remoção?",
+                ]]).' </td>
             </tr>';
         }
         ?>

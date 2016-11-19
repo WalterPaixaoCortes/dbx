@@ -31,7 +31,9 @@ $this->title = 'Componentes Coleta';
             <tr>
                 <td>'.$c['Nome'].'</td>
                 <td>'.$c['Criacao'].'</td>
-                <td>'.Html::a("Configurar", ['componente/editar-coleta', 'componente'=>$c['Nome']]).'/ '.Html::a("Remover", ['componente/remover-coleta', 'componente'=>$c['ID']]).' </td>
+                <td>'.Html::a("Configurar", ['componente/editar-coleta', 'componente'=>$c['Nome']]).'/ '.Html::a("Remover", ['componente/remover-coleta', 'componente'=>$c['ID']], ['data' => [
+                    'confirm' => "Deseja confirmar a remoção?",
+                ]]).' </td>
             </tr>';
         }
         ?>

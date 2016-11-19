@@ -45,7 +45,9 @@ $this->title = 'Proteínas';
             <?php
             $acoes;
             foreach ($proteinas as $p){
-                $acoes = (Yii::$app->user->isGuest ? '':'<td>'.Html::a("Remover", ['proteina/remover', 'proteina'=>$p['id']]).'</td>');
+                $acoes = (Yii::$app->user->isGuest ? '':'<td>'.Html::a("Remover", ['proteina/remover', 'proteina'=>$p['id']], ['data' => [
+                        'confirm' => "Deseja confirmar a remoção?",
+                    ]]).'</td>');
                 echo '<tr>
                             <td>' . $p['nome'] . '</td>'.$acoes.'
                           </tr>';

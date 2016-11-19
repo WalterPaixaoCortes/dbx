@@ -31,7 +31,9 @@ $this->title = 'Componentes Visuais';
             <tr>
                 <td>'.$c['ID'].'</td>
                 <td>'.$c['nome'].'</td>
-                <td>'.Html::a("Remover", ['componente/remover-visual', 'componente'=>$c['ID']]).'</td>
+                <td>'.Html::a("Remover", ['componente/remover-visual', 'componente'=>$c['ID']], ['data' => [
+                    'confirm' => "Deseja confirmar a remoção?",
+                ]]).'</td>
             </tr>';
         }
         ?>
